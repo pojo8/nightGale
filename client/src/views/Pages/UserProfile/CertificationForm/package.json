@@ -1,0 +1,6 @@
+{
+  "name": "CertificationForm",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CertificationForm.js"
+}
