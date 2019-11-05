@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
+import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {
   Badge,
   Button,
-  ButtonDropdown,
+  // ButtonDropdown,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Col,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Fade,
+  // Collapse,
+  // DropdownItem,
+  // DropdownMenu,
+  // DropdownToggle,
+  // Fade,
   Form,
   FormGroup,
   FormText,
-  FormFeedback,
+  // FormFeedback,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -25,9 +26,42 @@ import {
   Row,
 } from 'reactstrap';
 
+import fields from './data/Specialtyfields';
+import Select from 'react-select';
+import 'react-select/dist/react-select.min.css';
+
+const options = fields.UK;
+
 class ProfessionForm extends Component {
   constructor(props) {
     super(props);
+    this.saveChanges = this.saveChanges.bind(this);
+    this.onSubmitSpecFields = this.onSubmitSpecFields.bind(this);
+    this.onResetSpecFields = this.onResetSpecFields.bind(this);
+
+    // add the bindings for the onchange methods
+    this.onUsernameChanged = this.onUsernameChanged.bind(this);
+    this.onDbsUpload = this.onDbsUpload.bind(this);
+    this.onCvUpload = this.onCvUpload.bind(this);
+    this.onFirstNameChanged = this.onFirstNameChanged.bind(this);
+    this.onLastNameChanged =  this.onLastNameChanged.bind(this);
+    this.onEmailChanged = this.onEmailChanged.bind(this);
+    this.onDobChanged = this.onDobChanged.bind(this);
+    this.onWorkHistoryChanged = this.onWorkHistoryChanged.bind(this);
+
+    // onchge for dbs and cv must convert to byte array for mongo storage
+
+    this.state ={
+      specialtyFields: [],
+      username: '',
+      dbs: '',
+      cv: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      dob:'',
+      workHistory: '',
+    }
 
     this.toggle = this.toggle.bind(this);
     this.toggleFade = this.toggleFade.bind(this);
@@ -36,6 +70,50 @@ class ProfessionForm extends Component {
       fadeIn: true,
       timeout: 300
     };
+  }
+  onSubmitSpecFields() {
+    alert('submit pressed')
+  }
+
+  onResetSpecFields() {
+    alert('reset pressed')
+  }
+
+  saveChanges(specialtyFields) {
+    this.setState({ specialtyFields });
+  }
+
+  onUsernameChanged(username) {
+    this.setState({ username });
+  }
+  
+  // FIXME convert to byte array for mongo storage
+  onDbsUpload(dbs) {
+    this.setState({ dbs });
+  }
+
+  onCvUpload(cv) {
+    this.setState({ cv });
+  }
+
+  onFirstNameChanged(firstName) {
+    this.setState({ firstName });
+  }
+  
+  onLastNameChanged(lastName) {
+    this.setState({lastName});
+  }
+
+  onEmailChanged(email) {
+    this.setState({ email });
+  }
+
+  onDobChanged(dob) {
+    this.setState({ dob })
+  }
+
+  onWorkHistoryChanged(workHistory) {
+    this.setState({ workHistory });
   }
 
   toggle() {
@@ -47,43 +125,88 @@ class ProfessionForm extends Component {
   }
 
   render() {
+
+    const {
+      specialtyFields,
+      username,
+      dbs,
+      cv,
+      firstName,
+      lastName,
+      email,
+      dob,
+      workHistory
+    } = this.state;
+
     return (
       <div className="animated fadeIn">
  
-          <Col xs="12" md="6">
             <Card>
               <CardHeader>
-                <strong>Profession</strong>
+              <i className="icon-briefcase"/><strong>Profession information</strong>
               </CardHeader>
               <CardBody>
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                   <FormGroup row>
                     <Col md="3">
-                      <Label>Static</Label>
+                      <Label htmlFor="text-input">Username</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <p className="form-control-static">Username</p>
+                      <Input type="text" id="text-input" name="text-input" placeholder="Text" 
+                      value={username} onChange={this.onUsernameChanged}/>
+                      <FormText color="muted">Name that appears during swap process</FormText>
                     </Col>
-                  </FormGroup>
-                  <FormGroup row>
+                    </FormGroup>
+                    <FormGroup row>
                     <Col md="3">
-                      <Label htmlFor="text-input">Text Input</Label>
+                      <Label htmlFor="firstName" >First name</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="text" id="text-input" name="text-input" placeholder="Text" />
-                      <FormText color="muted">This is a help text</FormText>
+                      <Input type="text" id="firstName" placeholder="Jane " required 
+                      value= {firstName} onChange={this.onFirstNameChanged}/>
+                    </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                    <Col md="3">
+
+                    <Label htmlFor="lastName" >Last name</Label>
+                    </Col>
+                    <Col xs="12" md="9">
+                      <Input type="text" id="lastName" placeholder="Doe" required 
+                      value= {lastName} onChange={this.onLastNameChanged}/>
                     </Col>
                   </FormGroup>
+
                   <FormGroup row>
                     <Col md="3">
                       <Label htmlFor="email-input">Email Input</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="email" id="email-input" name="email-input" placeholder="Enter Email" autoComplete="email"/>
+                      <Input type="email" id="email-input" name="email-input" placeholder="Enter Email" autoComplete="email"
+                      value = {email} onChange={this.onEmailChanged}/>
                       <FormText className="help-block">Please enter your email</FormText>
                     </Col>
                   </FormGroup>
-                  <FormGroup row>
+                  
+                  <FormGroup>
+                  <Label>Date input</Label>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText><i className="fa fa-calendar"></i></InputGroupText>
+                    </InputGroupAddon>
+                    <TextMask
+                      mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+                      Component={InputAdapter}
+                      className="form-control"
+                      value={dob} 
+                      onChange={this.onDobChanged}
+                    />
+                  </InputGroup>
+                  <FormText color="muted">
+                    ex. 99/99/9999
+                  </FormText>
+                </FormGroup>
+                <FormGroup row>
                     <Col md="3">
                       <Label htmlFor="password-input">Password</Label>
                     </Col>
@@ -91,236 +214,67 @@ class ProfessionForm extends Component {
                       <Input type="password" id="password-input" name="password-input" placeholder="Password" autoComplete="new-password" />
                       <FormText className="help-block">Please enter a complex password</FormText>
                     </Col>
-                  </FormGroup>
+                  </FormGroup>                  
                   <FormGroup row>
                     <Col md="3">
-                      <Label htmlFor="date-input">Date Input <Badge>NEW</Badge></Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input type="date" id="date-input" name="date-input" placeholder="date" />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="disabled-input">Disabled Input</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled" disabled />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="textarea-input">Textarea</Label>
+                      <Label htmlFor="textarea-input">Work history</Label>
                     </Col>
                     <Col xs="12" md="9">
                       <Input type="textarea" name="textarea-input" id="textarea-input" rows="9"
-                             placeholder="Content..." />
+                             placeholder="Content..."  
+                             value={workHistory} onChange={this.onWorkHistoryChanged}/>
                     </Col>
                   </FormGroup>
-                  <FormGroup row>
+                           <FormGroup row>
                     <Col md="3">
-                      <Label htmlFor="select">Select</Label>
+                      <Label htmlFor="file-input">Upload CV</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="select" name="select" id="select">
-                        <option value="0">Please select</option>
-                        <option value="1">Option #1</option>
-                        <option value="2">Option #2</option>
-                        <option value="3">Option #3</option>
-                      </Input>
+                      <Input type="file" id="cv-input" name="cv-input" 
+                      value = {cv} onChange={this.onCvUpload} />
                     </Col>
                   </FormGroup>
                   <FormGroup row>
                     <Col md="3">
-                      <Label htmlFor="selectLg">Select Large</Label>
-                    </Col>
-                    <Col xs="12" md="9" size="lg">
-                      <Input type="select" name="selectLg" id="selectLg" bsSize="lg">
-                        <option value="0">Please select</option>
-                        <option value="1">Option #1</option>
-                        <option value="2">Option #2</option>
-                        <option value="3">Option #3</option>
-                      </Input>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="selectSm">Select Small</Label>
+                      <Label htmlFor="file-input">Upload DBS check</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="select" name="selectSm" id="SelectLm" bsSize="sm">
-                        <option value="0">Please select</option>
-                        <option value="1">Option #1</option>
-                        <option value="2">Option #2</option>
-                        <option value="3">Option #3</option>
-                        <option value="4">Option #4</option>
-                        <option value="5">Option #5</option>
-                      </Input>
+                      <Input type="file" id="dbs-input" name="dbs-input" 
+                      value = {dbs} onChange={this.onDbsUpload}/>
                     </Col>
                   </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="disabledSelect">Disabled Select</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input type="select" name="disabledSelect" id="disabledSelect" disabled autoComplete="name">
-                        <option value="0">Please select</option>
-                        <option value="1">Option #1</option>
-                        <option value="2">Option #2</option>
-                        <option value="3">Option #3</option>
-                      </Input>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="multiple-select">Multiple select</Label>
-                    </Col>
-                    <Col md="9">
-                      <Input type="select" name="multiple-select" id="multiple-select" multiple>
-                        <option value="1">Option #1</option>
-                        <option value="2">Option #2</option>
-                        <option value="3">Option #3</option>
-                        <option value="4">Option #4</option>
-                        <option value="5">Option #5</option>
-                        <option value="6">Option #6</option>
-                        <option value="7">Option #7</option>
-                        <option value="8">Option #8</option>
-                        <option value="9">Option #9</option>
-                        <option value="10">Option #10</option>
-                      </Input>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label>Radios</Label>
-                    </Col>
-                    <Col md="9">
-                      <FormGroup check className="radio">
-                        <Input className="form-check-input" type="radio" id="radio1" name="radios" value="option1" />
-                        <Label check className="form-check-label" htmlFor="radio1">Option 1</Label>
-                      </FormGroup>
-                      <FormGroup check className="radio">
-                        <Input className="form-check-input" type="radio" id="radio2" name="radios" value="option2" />
-                        <Label check className="form-check-label" htmlFor="radio2">Option 2</Label>
-                      </FormGroup>
-                      <FormGroup check className="radio">
-                        <Input className="form-check-input" type="radio" id="radio3" name="radios" value="option3" />
-                        <Label check className="form-check-label" htmlFor="radio3">Option 3</Label>
-                      </FormGroup>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label>Inline Radios</Label>
-                    </Col>
-                    <Col md="9">
-                      <FormGroup check inline>
-                        <Input className="form-check-input" type="radio" id="inline-radio1" name="inline-radios" value="option1" />
-                        <Label className="form-check-label" check htmlFor="inline-radio1">One</Label>
-                      </FormGroup>
-                      <FormGroup check inline>
-                        <Input className="form-check-input" type="radio" id="inline-radio2" name="inline-radios" value="option2" />
-                        <Label className="form-check-label" check htmlFor="inline-radio2">Two</Label>
-                      </FormGroup>
-                      <FormGroup check inline>
-                        <Input className="form-check-input" type="radio" id="inline-radio3" name="inline-radios" value="option3" />
-                        <Label className="form-check-label" check htmlFor="inline-radio3">Three</Label>
-                      </FormGroup>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3"><Label>Checkboxes</Label></Col>
-                    <Col md="9">
-                      <FormGroup check className="checkbox">
-                        <Input className="form-check-input" type="checkbox" id="checkbox1" name="checkbox1" value="option1" />
-                        <Label check className="form-check-label" htmlFor="checkbox1">Option 1</Label>
-                      </FormGroup>
-                      <FormGroup check className="checkbox">
-                        <Input className="form-check-input" type="checkbox" id="checkbox2" name="checkbox2" value="option2" />
-                        <Label check className="form-check-label" htmlFor="checkbox2">Option 2</Label>
-                      </FormGroup>
-                      <FormGroup check className="checkbox">
-                        <Input className="form-check-input" type="checkbox" id="checkbox3" name="checkbox3" value="option3" />
-                        <Label check className="form-check-label" htmlFor="checkbox3">Option 3</Label>
-                      </FormGroup>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label>Inline Checkboxes</Label>
-                    </Col>
-                    <Col md="9">
-                      <FormGroup check inline>
-                        <Input className="form-check-input" type="checkbox" id="inline-checkbox1" name="inline-checkbox1" value="option1" />
-                        <Label className="form-check-label" check htmlFor="inline-checkbox1">One</Label>
-                      </FormGroup>
-                      <FormGroup check inline>
-                        <Input className="form-check-input" type="checkbox" id="inline-checkbox2" name="inline-checkbox2" value="option2" />
-                        <Label className="form-check-label" check htmlFor="inline-checkbox2">Two</Label>
-                      </FormGroup>
-                      <FormGroup check inline>
-                        <Input className="form-check-input" type="checkbox" id="inline-checkbox3" name="inline-checkbox3" value="option3" />
-                        <Label className="form-check-label" check htmlFor="inline-checkbox3">Three</Label>
-                      </FormGroup>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="file-input">File input</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input type="file" id="file-input" name="file-input" />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="file-multiple-input">Multiple File input</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input type="file" id="file-multiple-input" name="file-multiple-input" multiple />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row hidden>
-                    <Col md="3">
-                      <Label className="custom-file" htmlFor="custom-file-input">Custom file input</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Label className="custom-file">
-                        <Input className="custom-file" type="file" id="custom-file-input" name="file-input" />
-                        <span className="custom-file-control"></span>
-                      </Label>
-                    </Col>
-                  </FormGroup>
+                  
+                  
                 </Form>
               </CardBody>
               <CardFooter>
-                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
-                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
+                <Button type="submit" size="sm" color="primary" onClick={this.onSubmitProfessionInfo}><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                <Button type="reset" size="sm" color="danger" onClick={this.onResetProfessionInfo}><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
             <Card>
               <CardHeader>
-                <strong>Inline</strong> Form
-              </CardHeader>
-              <CardBody>
-                <Form action="" method="post" inline>
-                  <FormGroup className="pr-1">
-                    <Label htmlFor="exampleInputName2" className="pr-1">Name</Label>
-                    <Input type="text" id="exampleInputName2" placeholder="Jane Doe" required />
-                  </FormGroup>
-                  <FormGroup className="pr-1">
-                    <Label htmlFor="exampleInputEmail2" className="pr-1">Email</Label>
-                    <Input type="email" id="exampleInputEmail2" placeholder="jane.doe@example.com" required />
-                  </FormGroup>
-                </Form>
-              </CardBody>
-              <CardFooter>
-                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
-                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
+                <i className="icon-list"></i><strong>Specialty Fields</strong>{' '}
+                <div className="card-header-actions">
+              </div>
+            </CardHeader>
+            <CardBody>
+              <Select
+                name="specialtyFields"
+                value={specialtyFields}
+                options={options}
+                onChange={this.saveChanges}
+                multi
+              />
+            </CardBody>
+            <CardFooter>
+                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o" 
+                onClick={this.onSubmitSpecFields}></i> Submit</Button>
+                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban" 
+                onClick={this.onResetSpecFields}></i> Reset</Button>
               </CardFooter>
-            </Card>
-          </Col>
-      
+          </Card>
+            
       </div>
     );
   }

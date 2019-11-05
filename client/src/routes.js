@@ -2,7 +2,7 @@ import React from 'react';
 import DefaultLayout from './containers/DefaultLayout/DefaultLayout';
 import Login from './views/Pages/Login/Login';
 
-const SimpleLineIcons = React.lazy(() => import('./views/Icons/SimpleLineIcons'));
+// const SimpleLineIcons = React.lazy(() => import('./views/Icons/SimpleLineIcons'));
 
 // Defin page routes here and in the const path for them to appear inside default
 const Dashboard = React.lazy(() => import('./views/Dashboard/Dashboard'));
