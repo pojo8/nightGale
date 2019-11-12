@@ -25,6 +25,10 @@ import {
   Row,
 } from 'reactstrap';
 
+import {
+  getFromStorage, 
+} from '../../../../containers/DefaultLayout/utils/Storage';
+
 
 
 class LocationForm extends Component {
@@ -32,6 +36,7 @@ class LocationForm extends Component {
     super(props);
 
     this.state ={ 
+      userId: '',
       street: '',
       city: '',
       postCode: '',
@@ -55,6 +60,20 @@ class LocationForm extends Component {
       fadeIn: true,
       timeout: 300
     };
+  }
+
+  componentDidMount(){
+    const obj = getFromStorage('app_ng');
+
+    if( obj && obj.token) {
+          console.log(obj.userId);
+          this.setState({
+            userId: obj.userId,
+          });
+
+        } else {
+          console.error('user id is not found');
+        }
   }
 
   onStreetChanged(event){
@@ -89,6 +108,7 @@ class LocationForm extends Component {
 
   onSubmitLocationForm(){
     const { 
+      userId,
       street,
       city,
       postCode,
@@ -102,6 +122,7 @@ class LocationForm extends Component {
 
   onResetLocationForm(){
     const { 
+      userId,
       street,
       city,
       postCode,
@@ -127,6 +148,7 @@ class LocationForm extends Component {
   render() {
 
     const { 
+      userId,
       street,
       city,
       postCode,

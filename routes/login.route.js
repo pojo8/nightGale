@@ -26,6 +26,7 @@ loginExpressRoute.route('/account/signup').post((request, response, next) =>{
         })
     }
 
+
     email = email.toLowerCase();    
 
     // verify email doesnt exist
@@ -51,7 +52,7 @@ loginExpressRoute.route('/account/signup').post((request, response, next) =>{
     newUser.firstName = firstName;
     newUser.lastName = lastName;
     newUser.password = newUser.generateHash(password);
-
+    console.log('befire save')
     newUser.save(function(error, user){
         if (error) {
             return response.send({
@@ -59,6 +60,7 @@ loginExpressRoute.route('/account/signup').post((request, response, next) =>{
                 msg: "Error: account not created"
             });
         } else {
+            console.log(user);
             response.status(200).json({
                 success: true,
                 AddedUser: user
@@ -117,15 +119,20 @@ loginExpressRoute.route('/account/login').post((request, response, next) =>{
             if (error) {
                 return response.send({
                     success: false,
-                    messge: 'Error: server error'
+                    messge: 'Error: server error',
                 });
             }
+            // FIXME remove 
+            //  console.log('User id:'+user._id);
+            // console.log('Session id: '+ session._id);
 
             return response.send({
                 success: true,
                 message: 'Valid sign in',
                 // token is linked to the user id
-                token: session._id
+                token: session._id,
+                uid: user._id,
+
             });
         })
     })
@@ -145,19 +152,18 @@ loginExpressRoute.route('/account/logout').get((request, response, next) =>{
        $set:{
         isDeleted:true
         } 
-    }, null,(error, sessions) => {
+    }, null, (error, sessions) => {
         if (error) {
-            return response.send({
-                success: false,
-                messaged: 'Error: Server error'
-            });
-        }
-
-            return response.send({
-                success: true,
-                message: 'Logout confirmed'
+          console.log(err);
+          return response.send({
+            success: false,
+            message: 'Error: Server error'
+          });
+        }      return response.send({
+          success: true,
+          message: 'Good'
         });
-    });
+      });
     });
 
 

@@ -1,20 +1,20 @@
 import React from 'react';
 import DefaultLayout from './containers/DefaultLayout/DefaultLayout';
-import Login from './views/Pages/Login/Login';
 
 // const SimpleLineIcons = React.lazy(() => import('./views/Icons/SimpleLineIcons'));
 
 // Defin page routes here and in the const path for them to appear inside default
 const Dashboard = React.lazy(() => import('./views/Dashboard/Dashboard'));
-const UserProfile = React.lazy(() => import('./views/Pages/UserProfile'));
+const UserProfile = React.lazy(() => import('./views/Pages/UserProfile/UserProfile'));
+const Login = React.lazy(()=> import('./views/Pages/Login/Login'));
 
 
 
 const routes = [
     { path: '/', name: 'Home', component: DefaultLayout, exact: true },
-    { path: '/login', name: 'Login', component: Login},
+    { path: '/login', exact: true,  name: 'Login Page', component: Login },
     { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-    { path: '/userprofile', name: 'UserProfile', component: UserProfile },
+    { path: '/userprofile', name: 'UserProfile', component: UserProfile,  exact: true},
 
     // { path: '/theme', name: 'Theme', component: Colors, exact: true },
     // { path: '/theme/colors', name: 'Colors', component: Colors },

@@ -30,6 +30,11 @@ import fields from './data/Specialtyfields';
 import Select from 'react-select';
 import 'react-select/dist/react-select.min.css';
 
+import {
+  getFromStorage, 
+} from '../../../../containers/DefaultLayout/utils/Storage';
+
+
 const options = fields.UK;
 
 class ProfessionForm extends Component {
@@ -52,6 +57,7 @@ class ProfessionForm extends Component {
     // onchge for dbs and cv must convert to byte array for mongo storage
 
     this.state ={
+      userId: '',
       specialtyFields: [],
       username: '',
       dbs: '',
@@ -71,6 +77,21 @@ class ProfessionForm extends Component {
       timeout: 300
     };
   }
+
+  componentDidMount(){
+    const obj = getFromStorage('app_ng');
+
+    if( obj && obj.token) {
+          console.log(obj.userId);
+          this.setState({
+            userId: obj.userId,
+          });
+
+        } else {
+          console.error('user id is not found');
+        }
+  }
+
   onSubmitSpecFields() {
     alert('submit pressed')
   }
@@ -127,6 +148,7 @@ class ProfessionForm extends Component {
   render() {
 
     const {
+      userId,
       specialtyFields,
       username,
       dbs,

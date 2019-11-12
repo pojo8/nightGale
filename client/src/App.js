@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './App.scss';
 import Loadable from 'react-loadable';
 
@@ -48,6 +48,12 @@ const Dashboard = Loadable({
   loading
 });
 
+// check tht a react page has the container
+const UserProfile = Loadable({
+  loader: () => import('./views/Pages/UserProfile'),
+  loading
+});
+
 class App extends Component {
   render() {
     return (
@@ -55,12 +61,16 @@ class App extends Component {
         <Switch>
           {/* The name must match the name defined in the routes*/}
           {/* <Route exact path="/" name="Login" component={Login} /> */}
-          <Route exact path="/login" name="Login" component={Login} />
+
+          <Route exact path="/login" name="Login Page" component={Login} />
           <Route exact path="/register" name="Register Page" component={Register} />
           <Route exact path="/forgotPassword" name="Forgot Password Page" component={ForgotPassword} />
-          <Route path="/" name="Home" component= {DefaultLayout} />
           <Route exact path="/404" name="Page 404" component={Page404} />
           <Route exact path="/500" name="Page 500" component={Page500} />
+
+
+          <Route path="/" name="Home" component= {DefaultLayout} />
+
           {/* <Route exact path="/" name="Dashboard" component={Dashboard} /> */}
         </Switch>
       </HashRouter>

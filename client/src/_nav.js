@@ -1,221 +1,120 @@
 export default {
   items: [
     {
-      name: 'location',
-      url: '/dashboard',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'info',
-        text: 'NEW',
-      },
-    },
-    {
-      title: true,
-      name: 'Theme',
-      wrapper: {            // optional wrapper object
-        element: '',        // required valid HTML5 element tag
-        attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
-      },
-      class: ''             // optional class names space delimited list for title item ex: "text-center"
-    },
-    {
-      name: 'Colors',
+  
+      name: 'Search',
+      url: '/base',
+      icon: 'cui-magnifying-glass',
+      children: [
+        {
+          name: 'Shift Search',
       url: '/theme/colors',
-      icon: 'icon-drop',
-    },
-    {
-      name: 'Typography',
+      icon: 'icon-event',
+        },
+        {
+          name: 'Hospital search',
       url: '/theme/typography',
-      icon: 'icon-pencil',
-    },
+      icon: 'cui-magnifying-glass',
+        },
+        {
+          name: 'Region search',
+      url: '/theme/typography',
+      icon: 'cui-location-pin',
+        },
+      
+    ]}
+    ,
     {
       title: true,
-      name: 'Components',
+      name: 'User account',
       wrapper: {
         element: '',
         attributes: {},
       },
     },
     {
-      name: 'Base',
+      name: 'User profile',
       url: '/base',
-      icon: 'icon-puzzle',
+      icon: 'cui-user',
       children: [
         {
-          name: 'Breadcrumbs',
+          name: 'User account',
           url: '/base/breadcrumbs',
-          icon: 'icon-puzzle',
+          icon: 'icon-user',
+        },]
+    },
+    {
+      name: 'Work profile',
+      url: '/userProfile',
+      icon: 'cui-briefcase',
+      children: [
+        {
+          name: 'user profile',
+          url: '/userprofile',
+          icon: 'icon-graduation',
+        },]
+    },
+    {
+      name: 'Settings',
+      url: '/base',
+      icon: 'cui-cog',
+      children: [
+        {
+          name: 'User account',
+          url: '/base/breadcrumbs',
+          icon: 'icon-user',
         },
         {
-          name: 'Cards',
-          url: '/base/cards',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Carousel',
+          name: 'Notification',
           url: '/base/carousels',
-          icon: 'icon-puzzle',
+          icon: 'cui-bell',
         },
+        
         {
-          name: 'Collapse',
-          url: '/base/collapses',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Dropdowns',
-          url: '/base/dropdowns',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Jumbotrons',
-          url: '/base/jumbotrons',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'List group',
-          url: '/base/list-groups',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Navs',
-          url: '/base/navs',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Paginations',
-          url: '/base/paginations',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Popovers',
-          url: '/base/popovers',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Progress Bar',
-          url: '/base/progress-bar',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Switches',
-          url: '/base/switches',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Spinners',
+          name: 'Privacy',
           url: '/base/spinners',
           icon: 'fa fa-circle-o-notch',
-          badge: {
-            variant: 'info',
-            text: 'NEW',
-          },
-        },
-        {
-          name: 'Tabs',
-          url: '/base/tabs',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: 'Tooltips',
-          url: '/base/tooltips',
-          icon: 'icon-puzzle',
         },
       ],
     },
+    
     {
-      name: 'Buttons',
-      url: '/buttons',
-      icon: 'icon-cursor',
-      children: [
-        {
-          name: 'Buttons',
-          url: '/buttons/buttons',
-          icon: 'icon-cursor',
-        },
-        {
-          name: 'Brand Buttons',
-          url: '/buttons/brand-buttons',
-          icon: 'icon-cursor',
-        },
-        {
-          name: 'Button groups',
-          url: '/buttons/button-groups',
-          icon: 'icon-cursor',
-        },
-        {
-          name: 'Dropdowns',
-          url: '/buttons/button-dropdowns',
-          icon: 'icon-cursor',
-        },
-        {
-          name: 'Loading Buttons',
-          url: '/buttons/loading-buttons',
-          icon: 'icon-cursor',
-          badge: {
-            variant: 'danger',
-            text: 'PRO',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Charts',
+      name: 'Time breakdown',
       url: '/charts',
-      icon: 'icon-pie-chart'
-    },
-    {
-      name: 'Editors',
-      url: '/editors',
-      icon: 'fa fa-code',
+      icon: 'icon-pie-chart',
       children: [
         {
-          name: 'Code Editors',
-          url: '/editors/code-editors',
-          icon: 'fa fa-code',
-          badge: {
-            variant: 'danger',
-            text: 'PRO',
-          },
+          name: 'Weekly audit',
+          url: '/calenderWeekView',
+          icon: 'icon-pie-chart'
         },
         {
-          name: 'Text Editors',
-          url: '/editors/text-editors',
-          icon: 'icon-note',
-          badge: {
-            variant: 'danger',
-            text: 'PRO',
-          },
-        }
+          name: 'Monthly audit',
+          url: '/calenderMonthView',
+          icon: 'icon-pie-chart'
+        },
       ]
     },
+    
     {
-      name: 'Forms',
-      url: '/forms',
-      icon: 'icon-note',
+      title: true,
+      name: 'Time mangement',
+    },
+    {
+      name: 'Calender',
+      url: '/calenderOverview',
+      icon: 'icon-calendar',
       children: [
         {
-          name: 'Basic Forms',
-          url: '/forms/basic-forms',
-          icon: 'icon-note'
+          name: 'Weekly calender',
+          url: '/calenderWeekView',
+          icon: 'icon-calendar'
         },
         {
-          name: 'Advanced Forms',
-          url: '/forms/advanced-forms',
-          icon: 'icon-note',
-          badge: {
-            variant: 'danger',
-            text: 'PRO'
-          }
+          name: 'Monthly calender',
+          url: '/calenderMonthView',
+          icon: 'icon-calendar'
         },
-        {
-          name: 'Validation',
-          url: '/forms/validation-forms',
-          icon: 'icon-note',
-          badge: {
-            variant: 'danger',
-            text: 'PRO'
-          }
-        }
       ]
     },
     {
@@ -226,6 +125,10 @@ export default {
         variant: 'danger',
         text: 'PRO'
       }
+    },
+    {
+      title: true,
+      name: 'Time audit',
     },
     {
       name: 'Icons',
@@ -263,200 +166,34 @@ export default {
       ],
     },
     {
-      name: 'Notifications',
-      url: '/notifications',
-      icon: 'icon-bell',
-      children: [
-        {
-          name: 'Alerts',
-          url: '/notifications/alerts',
-          icon: 'icon-bell',
-        },
-        {
-          name: 'Badges',
-          url: '/notifications/badges',
-          icon: 'icon-bell',
-        },
-        {
-          name: 'Modals',
-          url: '/notifications/modals',
-          icon: 'icon-bell'
-        },
-        {
-          name: 'Toastr',
-          url: '/notifications/toastr',
-          icon: 'icon-bell',
-          badge: {
-            variant: 'danger',
-            text: 'PRO'
-          }
-        }
-      ]
+      title: true,
+      name: 'Invoices',
     },
+   
+    
     {
-      name: 'Plugins',
-      url: '/plugins',
-      icon: 'icon-energy',
-      children: [
-        {
-          name: 'Calendar',
-          url: '/plugins/calendar',
-          icon: 'icon-calendar',
-          badge: {
-            variant: 'danger',
-            text: 'PRO'
-          }
-        },
-        {
-          name: 'Draggable',
-          url: '/plugins/draggable',
-          icon: 'icon-cursor-move',
-          badge: {
-            variant: 'danger',
-            text: 'PRO'
-          }
-        },
-        {
-          name: 'Spinners',
-          url: '/plugins/spinners',
-          icon: 'fa fa-spinner',
-          badge: {
-            variant: 'danger',
-            text: 'PRO'
-          }
-        }
-      ]
-        },
-    {
-      name: 'Tables',
+      name: 'Invoice',
       url: '/tables',
       icon: 'icon-list',
       children: [
         {
-          name: 'Data Table',
+          name: 'Edit pay rate',
           url: '/tables/data-table',
-          icon: 'icon-list',
-          badge: {
-            variant: 'danger',
-            text: 'PRO'
-          }
+          icon: 'cui-graph',
         },
         {
-          name: 'Tables',
+          name: 'Generate invoice',
           url: '/tables/tables',
-          icon: 'icon-list'
+          icon: 'icon-wallet'
         }
       ]
     },
+
     {
-      name: 'Widgets',
-      url: '/widgets',
-      icon: 'icon-calculator',
-      badge: {
-        variant: 'info',
-        text: 'NEW',
-      },
-    },
-    {
-      divider: true,
-    },
-    {
-      title: true,
-      name: 'Extras',
-    },
-    {
-      name: 'Pages',
-      url: '/pages',
-      icon: 'icon-star',
-      children: [
-        {
-          name: 'Login',
-          url: '/login',
-          icon: 'icon-star',
-        },
-        {
-          name: 'Register',
-          url: '/register',
-          icon: 'icon-star',
-        },
-        {
-          name: 'Error 404',
-          url: '/404',
-          icon: 'icon-star',
-        },
-        {
-          name: 'Error 500',
-          url: '/500',
-          icon: 'icon-star',
-        },
-      ],
-    },
-    {
-      name: 'Disabled',
-      url: '/dashboard',
-      icon: 'icon-ban',
-      badge: {
-        variant: 'secondary',
-        text: 'NEW',
-      },
-      attributes: { disabled: true },
-    },
-    {
-      name: 'Apps',
+      name: 'Log out',
       url: '/apps',
-      icon: 'icon-layers',
-      children: [
-        {
-          name: 'Invoicing',
-          url: '/apps/invoicing',
-          icon: 'icon-speech',
-          children: [
-            {
-              name: 'Invoice',
-              url: '/apps/invoicing/invoice',
-              icon: 'icon-speech',
-              badge: {
-                variant: 'danger',
-                text: 'PRO'
-              }
-            }
-          ]
-        },
-        {
-          name: 'Email',
-          url: '/apps/email',
-          icon: 'icon-speech',
-          children: [
-            {
-              name: 'Inbox',
-              url: '/apps/email/inbox',
-              icon: 'icon-speech',
-              badge: {
-                variant: 'danger',
-                text: 'PRO',
-              },
-            },
-            {
-              name: 'Message',
-              url: '/apps/email/message',
-              icon: 'icon-speech',
-              badge: {
-                variant: 'danger',
-                text: 'PRO',
-              },
-            },
-            {
-              name: 'Compose',
-              url: '/apps/email/compose',
-              icon: 'icon-speech',
-              badge: {
-                variant: 'danger',
-                text: 'PRO',
-              },
-            },
-          ],
-        },
-      ]
+      icon: 'cui-account-logout',
+      
     },
     {
       divider: true,

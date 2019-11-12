@@ -78,7 +78,7 @@ class Register extends Component {
   }
 
   navigateToHome(){
-    this.props.history.push('/');  }
+    this.props.history.push('/login');  }
 
   // checkPasswordsMatch() {
     
@@ -116,10 +116,10 @@ class Register extends Component {
     .then(json => {
       console.log(json)  
       if (json.success === true) {
-          // this.setState({
-          //   userRegistered: true,
-          // })
-          this.navigateToHome();
+          this.setState({
+            userRegistered: true,
+          })
+        this.navigateToHome();
       }
       else if (json.success === false) {
         this.setState({
@@ -160,8 +160,8 @@ class Register extends Component {
                     }
                     {
                       this.state.userRegistered ?
-                      <Alert color="danger">
-                        {registerError}
+                      <Alert color="success">
+                        User successfully registered
                       </Alert> : null
                     }
                     <InputGroup className="mb-3">

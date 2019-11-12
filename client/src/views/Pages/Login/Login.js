@@ -4,6 +4,7 @@ import { Alert } from 'reactstrap';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import {FiLock} from 'react-icons/fi'
 
+import { setInStorage } from '../../../containers/DefaultLayout/utils/Storage';
 class Login extends Component {
   constructor() {
     super()
@@ -17,6 +18,7 @@ class Login extends Component {
     this.onTextBoxChangeEmail = this.onTextBoxChangeEmail.bind(this);
     this.onTextBoxChangePassword = this.onTextBoxChangePassword.bind(this);
     this.onLogin = this.onLogin.bind(this);
+    this.navigateToDashBoard = this.navigateToDashBoard.bind(this);
   }
 
   // on change events for the input boxes
@@ -31,7 +33,7 @@ class Login extends Component {
       loginPassword:event.target.value,
     });
   }
-
+  
   onLogin(){
     // Grab state
     const {
@@ -50,16 +52,35 @@ class Login extends Component {
       }),
     }).then( response => response.json())
     .then(json => {
-      this.setState({
-        loginSuccess: true,
-      })
-      if(json.success) {
+      console.log('login json: ', json);
+      if(json.success === true) {
+        // stores the toekn generated with the local storage FIXME in future
+        // This will be stored in the default header item that will appear on all the pages
+        setInStorage('app_ng', {token: json.token,userId: json.uid});
+
         this.setState({
+          loginSuccess: true,
           loginError: json.message,
-        })
+          loginPassword: '',
+          loginEmail: '',
+          token: json.token,
+        });
+
+       // this.navigateToDashBoard()
+      } else {
+        this.setState({
+          loginSuccess: false,
+          loginError: true,
+        });
+        console.log('Error found in login process')
       }
     });
   }
+
+
+  navigateToDashBoard(){
+     this.props.history.push('/'); 
+   }
   
   render() {
 
@@ -138,14 +159,11 @@ class Login extends Component {
           </Row>
           {
                       this.state.loginSuccess ?
-                      <Alert color="success">
-                        User with email : {this.state.loginEmail} successful login
-                      </Alert> : null
-                    }
-          {
-                      this.state.loginError ?
-                      <Alert color="success">
-                        {loginError}
+                      this.navigateToDashBoard() : this.state.loginError == false
+          }
+                      { this.state.loginError ?
+                      <Alert color="danger">
+                        User with email : {this.state.loginEmail} Unsuccessful login attempt
                       </Alert> : null
                     }
         </Container>

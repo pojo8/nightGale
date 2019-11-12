@@ -16,6 +16,7 @@ import {
 } from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
+
 // routes config
 import routes from '../../routes';
 
@@ -28,7 +29,7 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault()
-    this.props.history.push('/login')
+    this.props.history.push('/')
   }
 
   render() {
@@ -36,7 +37,7 @@ class DefaultLayout extends Component {
       <div className="app">
         <AppHeader fixed>
           <Suspense fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)}/>
+            <DefaultHeader logOutSuccess={e=>this.signOut(e)}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
