@@ -6,6 +6,8 @@ import {
   // ButtonDropdown,
   Card,
   CardBody,
+  CardImage,
+
   CardFooter,
   CardHeader,
   Col,
@@ -34,6 +36,10 @@ import {
   getFromStorage, 
 } from '../../../../containers/DefaultLayout/utils/Storage';
 
+import {
+  Base64Encode,
+  Base64Decode, 
+} from '../../../../containers/DefaultLayout/utils/B64Methods';
 
 const options = fields.UK;
 
@@ -41,11 +47,10 @@ class ProfessionForm extends Component {
   constructor(props) {
     super(props);
     this.saveChanges = this.saveChanges.bind(this);
-    this.onSubmitSpecFields = this.onSubmitSpecFields.bind(this);
-    this.onResetSpecFields = this.onResetSpecFields.bind(this);
+    this.onSubmitProfessionInfo = this.onSubmitProfessionInfo.bind(this);
+    this.onResetProfessionInfo = this.onResetProfessionInfo.bind(this);
 
     // add the bindings for the onchange methods
-    this.onUsernameChanged = this.onUsernameChanged.bind(this);
     this.onDbsUpload = this.onDbsUpload.bind(this);
     this.onCvUpload = this.onCvUpload.bind(this);
     this.onFirstNameChanged = this.onFirstNameChanged.bind(this);
@@ -59,23 +64,24 @@ class ProfessionForm extends Component {
     this.state ={
       userId: '',
       specialtyFields: [],
-      username: '',
-      dbs: '',
-      cv: '',
+      dbsImage: '',
+      dbsNumber:'',
+      cvImage: '',
       firstName: '',
       lastName: '',
       email: '',
       dob:'',
       workHistory: '',
+      professionUpdateError: false,
     }
 
-    this.toggle = this.toggle.bind(this);
-    this.toggleFade = this.toggleFade.bind(this);
-    this.state = {
-      collapse: true,
-      fadeIn: true,
-      timeout: 300
-    };
+    // this.toggle = this.toggle.bind(this);
+    // this.toggleFade = this.toggleFade.bind(this);
+    // this.state = {
+    //   collapse: true,
+    //   fadeIn: true,
+    //   timeout: 300
+    // };
   }
 
   componentDidMount(){
@@ -92,30 +98,139 @@ class ProfessionForm extends Component {
         }
   }
 
-  onSubmitSpecFields() {
-    alert('submit pressed')
-  }
+  onSubmitProfessionInfo() {
 
-  onResetSpecFields() {
-    alert('reset pressed')
-  }
+    const {
+      userId,
+      specialtyFields,
+      dbsImage,
+      dbsNumber,
+      cvImage,
+      firstName,
+      lastName,
+      email,
+      dob,
+      workHistory
+      } = this.state;
+
+      console.log('State before htransit: '+ this.cvI)
+
+    fetch('http://localhost:8080/endpoint/workProfile/profession-update', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId,
+        specialtyFields: specialtyFields,
+        dbsImage: dbsImage,
+        dbsNumber: dbsNumber,
+        cvImage: cvImage,
+        dob: dob,
+        firstName: firstName,
+        lastName: lastName,
+        email:email,
+        workHistory: workHistory,
+      }),
+    }).then( response => response.json())
+    .then(json => {
+      console.log('profession json: ', json);
+      if(json.success === true) {
+       
+        console.log('profession update successful')
+
+      } else {
+        this.setState({
+          loginSuccess: false,
+          professionUpdateError: true,
+        });
+        console.log('Error found in login process')
+      }
+    });  }
+
+  onResetProfessionInfo() {
+    this.setState({
+      specialtyFields: '',
+      dbsImage: null,
+      dbsNumber: '',
+      cvImage: null,
+      firstName:'',
+      lastName:'',
+      email:'',
+      dob:'',
+      workHistory:'',
+
+    });  }
 
   saveChanges(specialtyFields) {
     this.setState({ specialtyFields });
   }
 
-  onUsernameChanged(username) {
-    this.setState({ username });
-  }
   
   // FIXME convert to byte array for mongo storage
+  
+  onDbsSelectedHandler = event => {
+    console.log(event.target.files[0])
+  }
+
   onDbsUpload(dbs) {
     this.setState({ dbs });
   }
-
-  onCvUpload(cv) {
-    this.setState({ cv });
+  onDbsNumberChanged(dbsNumber) {
+    this.setState({ dbsNumber });
   }
+
+  onCvSelectedHandler = event => {
+    let file = event.target.files[0];
+    
+
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload=(e)=> {
+      console.warn('img data', e.target.result)
+      this.setState({cvImage: e.target.result})
+
+    }
+    //let b64File = Base64Encode(event.target.files[0])
+    //console.log(b64File)
+   // console.log(event.target.files[0])
+
+  }
+
+  onCvUpload() {
+    const {
+      userId,
+      cvImage,
+
+      } = this.state;
+
+      console.log('State before htransit: '+ this.state.cvImage)
+
+    fetch('http://localhost:8080/endpoint/workProfile/profession-upload-cv', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId,
+        cvImage: cvImage,
+      }),
+    }).then( response => response.json())
+    .then(json => {
+      console.log('profession json: ', json);
+      if(json.success === true) {
+       
+        console.log('profession upload cv successful')
+
+      } else {
+        this.setState({
+          loginSuccess: false,
+          professionUpdateError: true,
+        });
+        console.log('Error: uploading cv')
+      }
+    });  }
 
   onFirstNameChanged(firstName) {
     this.setState({ firstName });
@@ -150,14 +265,15 @@ class ProfessionForm extends Component {
     const {
       userId,
       specialtyFields,
-      username,
-      dbs,
-      cv,
+      dbsImage,
+      dbsNumber,
+      cvImage,
       firstName,
       lastName,
       email,
       dob,
-      workHistory
+      workHistory,
+      professionUpdateError 
     } = this.state;
 
     return (
@@ -169,16 +285,6 @@ class ProfessionForm extends Component {
               </CardHeader>
               <CardBody>
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="text-input">Username</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input type="text" id="text-input" name="text-input" placeholder="Text" 
-                      value={username} onChange={this.onUsernameChanged}/>
-                      <FormText color="muted">Name that appears during swap process</FormText>
-                    </Col>
-                    </FormGroup>
                     <FormGroup row>
                     <Col md="3">
                       <Label htmlFor="firstName" >First name</Label>
@@ -210,33 +316,29 @@ class ProfessionForm extends Component {
                     </Col>
                   </FormGroup>
                   
-                  <FormGroup>
-                  <Label>Date input</Label>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText><i className="fa fa-calendar"></i></InputGroupText>
-                    </InputGroupAddon>
-                    <TextMask
-                      mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
-                      Component={InputAdapter}
-                      className="form-control"
-                      value={dob} 
-                      onChange={this.onDobChanged}
-                    />
-                  </InputGroup>
-                  <FormText color="muted">
-                    ex. 99/99/9999
-                  </FormText>
-                </FormGroup>
-                <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="password-input">Password</Label>
+                  <FormGroup row>
+                  <Col md="3">
+                    <Label>Date of birth</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="password" id="password-input" name="password-input" placeholder="Password" autoComplete="new-password" />
-                      <FormText className="help-block">Please enter a complex password</FormText>
+
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText><i className="fa fa-calendar"></i></InputGroupText>
+                        </InputGroupAddon>
+                        <TextMask
+                          mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+                          Component={InputAdapter}
+                          className="form-control"
+                          value={dob} 
+                          onChange={this.onDobChanged}
+                        />
+                      </InputGroup>
+                      <FormText color="muted">
+                        ex. 99/99/9999
+                      </FormText>
                     </Col>
-                  </FormGroup>                  
+                </FormGroup>                  
                   <FormGroup row>
                     <Col md="3">
                       <Label htmlFor="textarea-input">Work history</Label>
@@ -247,55 +349,64 @@ class ProfessionForm extends Component {
                              value={workHistory} onChange={this.onWorkHistoryChanged}/>
                     </Col>
                   </FormGroup>
-                           <FormGroup row>
+                  <FormGroup row>
+
                     <Col md="3">
-                      <Label htmlFor="file-input">Upload CV</Label>
+                      <Label htmlFor="specialtyFields">Specialty fields</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="file" id="cv-input" name="cv-input" 
-                      value = {cv} onChange={this.onCvUpload} />
+
+                    <Select
+                      name="specialtyFields"
+                      value={specialtyFields}
+                      options={options}
+                      onChange={this.saveChanges}
+                      multi
+                    />
+                  </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Col md="3">
+                      <Label htmlFor="file-input">Cv</Label>
+                    </Col>
+                    <Col xs="12" md="6">
+                      <Input type="file" id="cvImage" name="cvImage" 
+                       onChange={this.onCvSelectedHandler}  />
+                      </Col>
+                      <Col xs="12" md="3">
+                      <Button color="success" onClick={this.onCvUpload}><i className="fa fa-upload"></i> Upload Cv</Button>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                  <Col md="3">
+                      <Label htmlFor="dbsNumber" >DBS Certificate number</Label>
+                    </Col>
+                    <Col xs="12" md="9">
+                      <Input type="text" id="dbsNumber" placeholder="" required 
+                      value= {dbsNumber} onChange={this.onDbsSelectedHandler}/>
                     </Col>
                   </FormGroup>
                   <FormGroup row>
                     <Col md="3">
-                      <Label htmlFor="file-input">Upload DBS check</Label>
+                      <Label htmlFor="file-input"> DBS Certificate</Label>
                     </Col>
-                    <Col xs="12" md="9">
-                      <Input type="file" id="dbs-input" name="dbs-input" 
-                      value = {dbs} onChange={this.onDbsUpload}/>
+                    <Col xs="12" md="6">
+                      <Input type="file" id="dbsImage-input" name="dbsImage-input" 
+                      value = {dbsImage} onChange={this.onDbsUpload}/>
                     </Col>
-                  </FormGroup>
-                  
-                  
+                      <Col xs="12" md="3">
+                      <Button color="success" onClick={this.onDbsUpload}><i className="fa fa-upload"></i> Upload Dbs</Button>
+                    </Col>
+                    </FormGroup>
                 </Form>
               </CardBody>
               <CardFooter>
                 <Button type="submit" size="sm" color="primary" onClick={this.onSubmitProfessionInfo}><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
                 <Button type="reset" size="sm" color="danger" onClick={this.onResetProfessionInfo}><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
-            <Card>
-              <CardHeader>
-                <i className="icon-list"></i><strong>Specialty Fields</strong>{' '}
-                <div className="card-header-actions">
-              </div>
-            </CardHeader>
-            <CardBody>
-              <Select
-                name="specialtyFields"
-                value={specialtyFields}
-                options={options}
-                onChange={this.saveChanges}
-                multi
-              />
-            </CardBody>
-            <CardFooter>
-                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o" 
-                onClick={this.onSubmitSpecFields}></i> Submit</Button>
-                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban" 
-                onClick={this.onResetSpecFields}></i> Reset</Button>
-              </CardFooter>
-          </Card>
+           
             
       </div>
     );

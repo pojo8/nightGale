@@ -168,6 +168,7 @@ class CertificationForm extends Component {
               </CardBody>
               <CardFooter>
                 <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
                 <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>

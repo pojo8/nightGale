@@ -5,6 +5,9 @@ let express = require('express'),
     bodyParser = require('body-parser')
     dbConfig = require('./db/database');
 
+
+const fileUpload = require('express-fileupload');
+
 // Connecting to mongoDb
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.db, {
@@ -19,7 +22,11 @@ mongoose.connect(dbConfig.db, {
 
 // Setting up express
 const app = express();
+app.use(fileUpload());
+app.use(bodyParser({limit: '16mb'}));
+
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({
     extended: false
 }));
@@ -28,8 +35,9 @@ app.use(cors());
 //User Api roots
 const contractorRoute = require('./routes/contractor.route')
 const loginRoute = require('./routes/login.route')
+const workProfileRoute = require('./routes/workProfile.route')
 
-app.use('/endpoint', [contractorRoute, loginRoute])
+app.use('/endpoint', [contractorRoute, loginRoute, workProfileRoute])
 
 
 // Create port

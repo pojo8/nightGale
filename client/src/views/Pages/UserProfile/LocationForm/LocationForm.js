@@ -37,16 +37,17 @@ class LocationForm extends Component {
 
     this.state ={ 
       userId: '',
-      street: '',
+      address: '',
       city: '',
       postCode: '',
       country: '',
       travelDistance: '',
+      locationUpdateError: false,
     }
 
-    this.onStreetChanged = this.onStreetChanged.bind(this);
+    this.onAddressChanged = this.onAddressChanged.bind(this);
     this.onCityChanged = this.onCityChanged.bind(this);
-    this.onPostCodechanged = this.onPostCodeChanged.bind(this);
+    this.onPostCodeChanged = this.onPostCodeChanged.bind(this);
     this.onCountryChanged = this.onCountryChanged.bind(this);
     this.onTravelDistanceChanged = this.onTravelDistanceChanged.bind(this);
 
@@ -76,9 +77,9 @@ class LocationForm extends Component {
         }
   }
 
-  onStreetChanged(event){
+  onAddressChanged(event){
     this.setState({
-      street:event.target.value,
+      address:event.target.value,
     });
   }
 
@@ -109,28 +110,64 @@ class LocationForm extends Component {
   onSubmitLocationForm(){
     const { 
       userId,
-      street,
+      address,
       city,
       postCode,
       country,
       travelDistance,
     } = this.state
 
-    alert(this.state);
+    fetch('http://localhost:8080/endpoint/workProfile/location-update', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId,
+        address: address,
+        city: city,
+        postCode: postCode,
+        country: country,
+        travelDistance: travelDistance,
+      }),
+    }).then( response => response.json())
+    .then(json => {
+      console.log('location json: ', json);
+      if(json.success === true) {
+       
+        console.log('location update successful')
+
+      } else {
+        this.setState({
+          loginSuccess: false,
+          locationUpdateError: true,
+        });
+        console.log('Error found in login process')
+      }
+    });
 
   }
 
   onResetLocationForm(){
-    const { 
-      userId,
-      street,
-      city,
-      postCode,
-      country,
-      travelDistance,
-    } = this.state
+    // const { 
+    //   userId,
+    //   address,
+    //   city,
+    //   postCode,
+    //   country,
+    //   travelDistance,
+    //   locationUpdateError
+    // } = this.state
 
-    alert(this.state);
+    // alert(this.state);
+
+    this.setState({
+          address: '',
+          city: '',
+          postCode: '',
+          country: '',
+          travelDistance:''
+        });
 
   }
 
@@ -149,7 +186,7 @@ class LocationForm extends Component {
 
     const { 
       userId,
-      street,
+      address,
       city,
       postCode,
       country,
@@ -165,9 +202,9 @@ class LocationForm extends Component {
               <CardBody>
                 <FormGroup>
                   {/* <Text> Address information</Text> */}
-                  <Label htmlFor="street">Address</Label>
-                  <Input type="text" id="street" placeholder="Enter your address" 
-                  value={street} onChange={this.onStreetChanged}/>
+                  <Label htmlFor="address">Address</Label>
+                  <Input type="text" id="address" placeholder="Enter your address" 
+                  value={address} onChange={this.onAddressChanged}/>
                 </FormGroup>
                 <FormGroup row className="my-0">
                   <Col xs="8">
@@ -179,8 +216,8 @@ class LocationForm extends Component {
                   </Col>
                   <Col xs="4">
                     <FormGroup>
-                      <Label htmlFor="postal-code">Postal Code</Label>
-                      <Input type="text" id="postal-code" placeholder="Postal Code"
+                      <Label htmlFor="postCode">Postal Code</Label>
+                      <Input type="text" id="postCode" placeholder="Postal Code"
                       value= {postCode} onChange={this.onPostCodeChanged} />
                     </FormGroup>
                   </Col>
@@ -198,6 +235,7 @@ class LocationForm extends Component {
               </CardBody>
               <CardFooter>
                 <Button type="submit" size="sm" color="primary" onClick={this.onSubmitLocationForm}><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
                 <Button type="reset" size="sm" color="danger" onClick={this.onResetLocationForm}><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
