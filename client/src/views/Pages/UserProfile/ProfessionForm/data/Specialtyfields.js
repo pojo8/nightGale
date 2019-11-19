@@ -5,7 +5,7 @@ exports.UK =[
     {value: 'CM', label: "Children's mental health"},
     {value: 'CR', label: 'Clinical radiology'},
     {value: 'CO', label: 'Clinical oncology'},
-    {value: 'CH', label: 'community child health'},
+    {value: 'CH', label: 'Community child health'},
     {value: 'DM', label: 'Dermatology'},
     {value: 'EM', label: 'Emergency medicine'},
     {value: 'GA', label: 'Gastrology'},
@@ -43,3 +43,20 @@ exports.UK =[
     {value: 'UR', label: 'Urology surgery'},
     {value: 'VS', label: 'Vascular surgery'},
 ];
+
+// export function findLabel( fieldArray){
+    
+//     let labels = []
+
+//     fieldArray.forEach(field => {
+//         UK.array.forEach(element => {
+//             if(element.value === field){
+//                 labels.push(element.label);
+//                 console.log(labels);
+//             }
+//         });
+//         console.log(field);
+//     });
+//     return labels
+
+// }

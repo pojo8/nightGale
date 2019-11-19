@@ -7,6 +7,7 @@ import DefaultLayout from './containers/DefaultLayout/DefaultLayout';
 const Dashboard = React.lazy(() => import('./views/Dashboard/Dashboard'));
 const UserProfile = React.lazy(() => import('./views/Pages/UserProfile/UserProfile'));
 const Login = React.lazy(()=> import('./views/Pages/Login/Login'));
+const CalenderOverview = React.lazy(()=> import('./views/Pages/Calender/CalenderOverview/CalenderOverview'));
 
 
 
@@ -15,6 +16,7 @@ const routes = [
     { path: '/login', exact: true,  name: 'Login Page', component: Login },
     { path: '/dashboard', name: 'Dashboard', component: Dashboard },
     { path: '/userprofile', name: 'UserProfile', component: UserProfile,  exact: true},
+    { path: '/calenderOverview', name: 'CalendarOverview', component: CalenderOverview,  exact: true},
 
     // { path: '/theme', name: 'Theme', component: Colors, exact: true },
     // { path: '/theme/colors', name: 'Colors', component: Colors },

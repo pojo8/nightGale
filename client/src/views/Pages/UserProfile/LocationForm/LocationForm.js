@@ -1,26 +1,14 @@
 import React, { Component } from 'react';
 import {
-  Badge,
+  Alert,
   Button,
-  ButtonDropdown,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Col,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Fade,
-  Form,
   FormGroup,
-  FormText,
-  FormFeedback,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Row,
 } from 'reactstrap';
@@ -43,6 +31,8 @@ class LocationForm extends Component {
       country: '',
       travelDistance: '',
       locationUpdateError: false,
+      uploadSuccess: false,
+      visible: true,
     }
 
     this.onAddressChanged = this.onAddressChanged.bind(this);
@@ -50,7 +40,7 @@ class LocationForm extends Component {
     this.onPostCodeChanged = this.onPostCodeChanged.bind(this);
     this.onCountryChanged = this.onCountryChanged.bind(this);
     this.onTravelDistanceChanged = this.onTravelDistanceChanged.bind(this);
-
+    this.onDismiss = this.onDismiss.bind(this);
     this.onSubmitLocationForm = this.onSubmitLocationForm.bind(this);
     this.onResetLocationForm = this.onResetLocationForm.bind(this);
 
@@ -63,6 +53,10 @@ class LocationForm extends Component {
     };
   }
 
+  onDismiss() {
+    this.setState({ visible: false });
+  }
+
   componentDidMount(){
     const obj = getFromStorage('app_ng');
 
@@ -72,9 +66,34 @@ class LocationForm extends Component {
             userId: obj.userId,
           });
 
-        } else {
-          console.error('user id is not found');
-        }
+        fetch('http://localhost:8080/endpoint/get-workProfile/' +obj.userId, {
+        method: 'GET',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+    }).then( response => response.json())
+    .then(json => {
+      console.log('location work profile json: ', json);
+      if(json.success === true) {
+        console.warn(json.workProfile);
+        console.warn('addy ' + json.workProfile.address )
+        this.setState({
+          address: json.workProfile.address,
+          city: json.workProfile.city,
+          postCode: json.workProfile.postCode,
+          country: json.workProfile.country,
+          travelDistance: json.workProfile.travelDistance,
+        });
+        console.log('location info synced')
+
+      } else {
+       
+        console.log('No existing workprofile found ')
+      }
+    });
+    } else {
+      console.error('user id is not found');
+    }
   }
 
   onAddressChanged(event){
@@ -134,12 +153,16 @@ class LocationForm extends Component {
     .then(json => {
       console.log('location json: ', json);
       if(json.success === true) {
-       
+        
+        this.setState({
+          uploadSuccess: true,
+          locationUpdateError: false,
+        });
         console.log('location update successful')
 
       } else {
         this.setState({
-          loginSuccess: false,
+          uploadSuccess: false,
           locationUpdateError: true,
         });
         console.log('Error found in login process')
@@ -191,6 +214,9 @@ class LocationForm extends Component {
       postCode,
       country,
       travelDistance,
+      uploadSuccess,
+      visible,
+
     } = this.state
 
     return (
@@ -200,6 +226,11 @@ class LocationForm extends Component {
               <i className="icon-location-pin"></i><strong>Current Address</strong>{' '}
               </CardHeader>
               <CardBody>
+              { this.state.uploadSuccess ?
+                      <Alert color="success"  isOpen={this.state.visible} toggle={this.onDismiss}>
+                        Upload was successful
+                      </Alert> : null
+                    }
                 <FormGroup>
                   {/* <Text> Address information</Text> */}
                   <Label htmlFor="address">Address</Label>

@@ -60,6 +60,7 @@ app.get('/', (request, response) => {
 
 // error handler
 app.use(function (error, request, response, next) {
+    // console.warn(request)
     console.error(error.message);
     if (!error.statusCode) error.statusCode = 500;
     response.status(error.statusCode).send(error.message);

@@ -278,16 +278,25 @@ workProfileExpressRoute.route('/workprofiles').get((request, response) =>{
     })
 })
 
+//Example of a crud get query based on the user Id supplied
 // return workprofile for userId
 workProfileExpressRoute.route('/get-workProfile/:userId').get((request, response) => {
-    WorkProfileSchema.findById(request.params.id, (error, data) => {
+    // request.params.{value id the params field} is where valeus are stored
+    WorkProfileSchema.find({
+        _id: request.params.userId
+    }, (error, data) => {
         if (error) {
-            return next(error);
+            return response.send({
+                success: false,
+                messaged: 'Error: Server error'
+            });
         } else {
             // In the event of an ok response output the message
-            response.status(200).json({
-                workprofile: data
-            })
+            return response.send({
+                success: true,
+                // This is to get only first result form array of results
+                workProfile: data[0]
+            });        
         }
     })
 })

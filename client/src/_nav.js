@@ -106,6 +106,11 @@ export default {
       icon: 'icon-calendar',
       children: [
         {
+          name: 'Calender Overview',
+          url: '/calenderOverview',
+          icon: 'icon-pie-chart',
+        },
+        {
           name: 'Weekly calender',
           url: '/calenderWeekView',
           icon: 'icon-calendar'

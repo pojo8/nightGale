@@ -1,31 +1,21 @@
 import React, { Component } from 'react';
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {
-  Badge,
+  Alert,
   Button,
-  // ButtonDropdown,
   Card,
   CardBody,
-  CardImage,
-
   CardFooter,
   CardHeader,
   Col,
-  // Collapse,
-  // DropdownItem,
-  // DropdownMenu,
-  // DropdownToggle,
-  // Fade,
   Form,
   FormGroup,
   FormText,
-  // FormFeedback,
   Input,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   Label,
-  Row,
 } from 'reactstrap';
 
 import fields from './data/Specialtyfields';
@@ -35,11 +25,6 @@ import 'react-select/dist/react-select.min.css';
 import {
   getFromStorage, 
 } from '../../../../containers/DefaultLayout/utils/Storage';
-
-import {
-  Base64Encode,
-  Base64Decode, 
-} from '../../../../containers/DefaultLayout/utils/B64Methods';
 
 const options = fields.UK;
 
@@ -58,6 +43,7 @@ class ProfessionForm extends Component {
     this.onEmailChanged = this.onEmailChanged.bind(this);
     this.onDobChanged = this.onDobChanged.bind(this);
     this.onWorkHistoryChanged = this.onWorkHistoryChanged.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
 
     // onchge for dbs and cv must convert to byte array for mongo storage
 
@@ -73,15 +59,14 @@ class ProfessionForm extends Component {
       dob:'',
       workHistory: '',
       professionUpdateError: false,
+      uploadSuccess: null,
+      visible: true,
     }
 
-    // this.toggle = this.toggle.bind(this);
-    // this.toggleFade = this.toggleFade.bind(this);
-    // this.state = {
-    //   collapse: true,
-    //   fadeIn: true,
-    //   timeout: 300
-    // };
+  }
+
+  onDismiss() {
+    this.setState({ visible: false });
   }
 
   componentDidMount(){
@@ -92,10 +77,41 @@ class ProfessionForm extends Component {
           this.setState({
             userId: obj.userId,
           });
+          
+      fetch('http://localhost:8080/endpoint/get-workProfile/' +obj.userId, {
+        method: 'GET',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+    }).then( response => response.json())
+    .then(json => {
+      console.log('location work profile json: ', json);
+      if(json.success === true) {
+        console.warn(json.workProfile);
+        console.warn('addy ' + json.workProfile.address )
+        this.setState({
+          
+          specialtyFields: json.workProfile.specialtyFields,
+          dbsImage: json.workProfile.dbsImage,
+          dbsNumber: json.workProfile.dbsNumber,
+          cvImage: json.workProfile.cvImage,
+          firstName: json.workProfile.firstName,
+          lastName: json.workProfile.lastName,
+          email: json.workProfile.email,
+          dob: json.workProfile.dob,  
+          workHistory: json.workProfile.workHistory,    
+    
+        });
+        console.log('location info synced')
 
-        } else {
-          console.error('user id is not found');
-        }
+      } else {
+       
+        console.log('No existing workprofile found ')
+      }
+    });
+    } else {
+      console.error('user id is not found');
+    }
   }
 
   onSubmitProfessionInfo() {
@@ -113,7 +129,7 @@ class ProfessionForm extends Component {
       workHistory
       } = this.state;
 
-      console.log('State before htransit: '+ this.cvI)
+    console.error(this.state.specialtyFields)
 
     fetch('http://localhost:8080/endpoint/workProfile/profession-update', {
       method: 'POST',
@@ -129,19 +145,22 @@ class ProfessionForm extends Component {
         dob: dob,
         firstName: firstName,
         lastName: lastName,
-        email:email,
+        email: email,
         workHistory: workHistory,
       }),
     }).then( response => response.json())
     .then(json => {
       console.log('profession json: ', json);
       if(json.success === true) {
-       
+        
+        this.setState({
+          uploadSuccess: true,
+          professionUpdateError: false,
+        });
         console.log('profession update successful')
 
       } else {
         this.setState({
-          loginSuccess: false,
           professionUpdateError: true,
         });
         console.log('Error found in login process')
@@ -159,23 +178,67 @@ class ProfessionForm extends Component {
       email:'',
       dob:'',
       workHistory:'',
+      visible: false,
 
     });  }
 
-  saveChanges(specialtyFields) {
-    this.setState({ specialtyFields });
+  saveChanges(selectedOption) {
+    var newArray = this.state.specialtyFields.slice(0,);
+    newArray.push(selectedOption[selectedOption.length -1].value);
+    this.setState({ specialtyFields: newArray });
   }
-
-  
-  // FIXME convert to byte array for mongo storage
   
   onDbsSelectedHandler = event => {
-    console.log(event.target.files[0])
+    let file = event.target.files[0];
+    
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload=(e)=> {
+      console.warn('dbs data', e.target.result)
+      this.setState({dbsImage: e.target.result})
+
+    }
   }
 
   onDbsUpload(dbs) {
-    this.setState({ dbs });
+    const {
+      userId,
+      dbsImage,
+
+      } = this.state;
+
+      console.log('State before htransit: '+ this.state.dbsImage)
+
+    fetch('http://localhost:8080/endpoint/workProfile/profession-upload-cv', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId,
+        dbsImage: dbsImage,
+      }),
+    }).then( response => response.json())
+    .then(json => {
+      console.log('profession json: ', json);
+      if(json.success === true) {
+        this.setState({
+          uploadSuccess: true,
+          professionUpdateError: false,
+        });
+        console.log('profession upload dbs successful')
+
+      } else {
+        this.setState({
+          // loginSuccess: false,
+          professionUpdateError: true,
+        });
+        console.log('Error: uploading dbs certificate')
+      }
+    }); 
   }
+
   onDbsNumberChanged(dbsNumber) {
     this.setState({ dbsNumber });
   }
@@ -192,10 +255,6 @@ class ProfessionForm extends Component {
       this.setState({cvImage: e.target.result})
 
     }
-    //let b64File = Base64Encode(event.target.files[0])
-    //console.log(b64File)
-   // console.log(event.target.files[0])
-
   }
 
   onCvUpload() {
@@ -220,36 +279,41 @@ class ProfessionForm extends Component {
     .then(json => {
       console.log('profession json: ', json);
       if(json.success === true) {
-       
+        
+        this.setState({
+          uploadSuccess: true,
+          professionUpdateError: false,
+        });
         console.log('profession upload cv successful')
 
       } else {
         this.setState({
-          loginSuccess: false,
+          // loginSuccess: false,
           professionUpdateError: true,
         });
         console.log('Error: uploading cv')
       }
-    });  }
+    }); 
+   }
 
-  onFirstNameChanged(firstName) {
-    this.setState({ firstName });
+  onFirstNameChanged(event) {
+    this.setState({ firstName: event.target.value });
   }
   
-  onLastNameChanged(lastName) {
-    this.setState({lastName});
+  onLastNameChanged(event) {
+    this.setState({lastName: event.target.value});
   }
 
-  onEmailChanged(email) {
-    this.setState({ email });
+  onEmailChanged(event) {
+    this.setState({ email: event.target.value });
   }
 
-  onDobChanged(dob) {
-    this.setState({ dob })
+  onDobChanged(event) {
+    this.setState({ dob: event.target.value })
   }
 
-  onWorkHistoryChanged(workHistory) {
-    this.setState({ workHistory });
+  onWorkHistoryChanged(event) {
+    this.setState({ workHistory: event.target.value });
   }
 
   toggle() {
@@ -365,6 +429,12 @@ class ProfessionForm extends Component {
                     />
                   </Col>
                   </FormGroup>
+                  {/* FIXME Need to refresh and place it back to null */}
+                  { this.state.uploadSuccess ?
+                      <Alert color="success" isOpen={this.state.visible} toggle={this.onDismiss}>
+                        Upload was successful
+                      </Alert> : null
+                    }
                   <FormGroup row>
                     <Col md="3">
                       <Label htmlFor="file-input">Cv</Label>
@@ -383,7 +453,7 @@ class ProfessionForm extends Component {
                     </Col>
                     <Col xs="12" md="9">
                       <Input type="text" id="dbsNumber" placeholder="" required 
-                      value= {dbsNumber} onChange={this.onDbsSelectedHandler}/>
+                      value= {dbsNumber} onChange={this.onDbsNumberChanged}/>
                     </Col>
                   </FormGroup>
                   <FormGroup row>
@@ -392,7 +462,7 @@ class ProfessionForm extends Component {
                     </Col>
                     <Col xs="12" md="6">
                       <Input type="file" id="dbsImage-input" name="dbsImage-input" 
-                      value = {dbsImage} onChange={this.onDbsUpload}/>
+                        onChange={this.onDbsSelectedHandler}/>
                     </Col>
                       <Col xs="12" md="3">
                       <Button color="success" onClick={this.onDbsUpload}><i className="fa fa-upload"></i> Upload Dbs</Button>
@@ -406,7 +476,6 @@ class ProfessionForm extends Component {
                 <Button type="reset" size="sm" color="danger" onClick={this.onResetProfessionInfo}><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
-           
             
       </div>
     );
