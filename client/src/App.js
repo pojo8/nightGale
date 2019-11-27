@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import Loadable from 'react-loadable';
 
@@ -43,16 +43,11 @@ const Page500 = Loadable({
   loading
 });
 
-const Dashboard = Loadable({
-  loader: () => import('./views/Dashboard/Dashboard'),
-  loading
-});
+// const Dashboard = Loadable({
+//   loader: () => import('./views/Dashboard/Dashboard'),
+//   loading
+// });
 
-// check tht a react page has the container
-const UserProfile = Loadable({
-  loader: () => import('./views/Pages/UserProfile'),
-  loading
-});
 
 class App extends Component {
   render() {
@@ -67,8 +62,6 @@ class App extends Component {
           <Route exact path="/forgotPassword" name="Forgot Password Page" component={ForgotPassword} />
           <Route exact path="/404" name="Page 404" component={Page404} />
           <Route exact path="/500" name="Page 500" component={Page500} />
-
-
           <Route path="/" name="Home" component= {DefaultLayout} />
 
           {/* <Route exact path="/" name="Dashboard" component={Dashboard} /> */}

@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Button, 
+  Card, 
+  CardBody,
+  CardFooter,
+  Col,
+  Container, 
+  Form, 
+  Input, 
+  InputGroup, 
+  InputGroupAddon, 
+  InputGroupText, 
+  Modal,
+  Row } from 'reactstrap';
 
 class ForgotPassword extends Component {
   render() {
+
+    console.log(REACT_TEST_STRING);
+
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -38,7 +53,9 @@ class ForgotPassword extends Component {
               </Card>
             </Col>
           </Row>
+
         </Container>
+
       </div>
     );
   }

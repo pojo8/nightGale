@@ -28,7 +28,7 @@ const workProfileSchema = new Schema({
         type: Number,
     },
      dbsImage: {
-        type: Buffer,
+        type: String,
     },
     specialtyFields: [{
         type: String,
@@ -52,13 +52,16 @@ const workProfileSchema = new Schema({
         type: String,
     },
     gmcImage: {
-        type: Buffer,
+        type: String,
     },
     f1CertImage: {
-        type: Buffer,
+        type: String,
     },
     medicalCertImage: {
-        type: Buffer,
+        type: String,
+    },
+    references: {
+        type: String,
     },
     vaccinationHistImage: [{
         type: Buffer,

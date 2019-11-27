@@ -5,6 +5,7 @@ import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGr
 import {FiLock} from 'react-icons/fi'
 
 import { setInStorage } from '../../../containers/DefaultLayout/utils/Storage';
+import { runInThisContext } from 'vm';
 class Login extends Component {
   constructor() {
     super()
@@ -12,13 +13,15 @@ class Login extends Component {
       loginError: false,
       loginSuccess: false,
       loginEmail:'',
-      loginPassword:''
+      loginPassword:'',
+      forcePasswordReset: false,
     };
 
     this.onTextBoxChangeEmail = this.onTextBoxChangeEmail.bind(this);
     this.onTextBoxChangePassword = this.onTextBoxChangePassword.bind(this);
     this.onLogin = this.onLogin.bind(this);
     this.navigateToDashBoard = this.navigateToDashBoard.bind(this);
+    this.launchResetPasswordModal = this.launchResetPasswordModal.bind(this);
   }
 
   // on change events for the input boxes
@@ -40,6 +43,7 @@ class Login extends Component {
       loginEmail,
       loginPassword,
     } = this.state
+    
     // Post request to backend
     fetch('http://localhost:8080/endpoint/account/login', {
       method: 'POST',
@@ -53,7 +57,7 @@ class Login extends Component {
     }).then( response => response.json())
     .then(json => {
       console.log('login json: ', json);
-      if(json.success === true) {
+      if(json.success === true && json.forcePasswordReset != true) {
         // stores the toekn generated with the local storage FIXME in future
         // This will be stored in the default header item that will appear on all the pages
         setInStorage('app_ng', {token: json.token,userId: json.uid});
@@ -66,8 +70,13 @@ class Login extends Component {
           token: json.token,
         });
 
-       // this.navigateToDashBoard()
-      } else {
+      } else if(json.success === true && json.forcePasswordReset){
+        this.setState({
+          loginSuccess: true,
+          forcePasswordReset: true,
+        });
+        console.log('user needs to reset password')
+      }else {
         this.setState({
           loginSuccess: false,
           loginError: true,
@@ -80,12 +89,16 @@ class Login extends Component {
 
   navigateToDashBoard(){
      this.props.history.push('/'); 
-   }
+  }
+
+  // maybe iport this from the new email address
+  launchResetPasswordModal(){
+
+  }
   
   render() {
 
     const {
-      loginError,
       loginEmail,
       loginPassword
     } = this.state
@@ -157,8 +170,13 @@ class Login extends Component {
             </Col>
           </Row>
           {
-                      this.state.loginSuccess ?
-                      this.navigateToDashBoard() : this.state.loginError == false
+            // this will launch a modal for forgot passowrd
+                      this.state.loginSuccess && this.state.forcePasswordReset ?
+                      this.launchResetPasswordModal(loginEmail) : this.state.loginError === false
+          }
+          {
+                      this.state.loginSuccess && !this.state.forcePasswordReset ?
+                      this.navigateToDashBoard() : this.state.loginError === false
           }
                       { this.state.loginError ?
                       <Alert color="danger">

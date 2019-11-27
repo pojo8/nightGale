@@ -127,7 +127,7 @@ workProfileExpressRoute.route('/workProfile/profession-update').post((request, r
     newProfessionInfo.cvImage = cvImage;
     newProfessionInfo.dbsImage =  dbsImage;
 
-    let binaryCvImage =  new Buffer(binary(cvImage));
+    //let binaryCvImage =  new Buffer(binary(cvImage));
    // newProfessionInfo.cvImage = binaryCvImage;
 
     WorkProfileSchema.findOneAndUpdate({'_id': userId}, newProfessionInfo, {upsert:true}, function(error, doc){
@@ -217,7 +217,8 @@ workProfileExpressRoute.route('/workProfile/certification-update').post((request
         gmcImage,
         f1CertImage,
         medicalCertImage,
-        vaccinationHistImage
+        vaccinationHistImage,
+        references,
 
     } = body;
 
@@ -248,6 +249,7 @@ workProfileExpressRoute.route('/workProfile/certification-update').post((request
     newCertificationInfo.f1CertImage = f1CertImage;
     newCertificationInfo.medicalCertImage = medicalCertImage;
     newCertificationInfo.vaccinationHistImage = vaccinationHistImage;
+    newCertificationInfo.references = references;
 
     WorkProfileSchema.findOneAndUpdate({'_id': userId}, newCertificationInfo, {upsert:true}, function(error, doc){
 

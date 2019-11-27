@@ -5,18 +5,48 @@ import DefaultLayout from './containers/DefaultLayout/DefaultLayout';
 
 // Defin page routes here and in the const path for them to appear inside default
 const Dashboard = React.lazy(() => import('./views/Dashboard/Dashboard'));
+// rename this below
 const UserProfile = React.lazy(() => import('./views/Pages/UserProfile/UserProfile'));
 const Login = React.lazy(()=> import('./views/Pages/Login/Login'));
 const CalenderOverview = React.lazy(()=> import('./views/Pages/Calender/CalenderOverview/CalenderOverview'));
+const CalenderView = React.lazy(()=> import('./views/Pages/Calender/CalenderView/CalendarView'));
+const UserAccount = React.lazy(()=> import('./views/Pages/UserAccount/UserAccount'))
 
+// Personal Calendar views
+const AECalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/AECalenderView/AECalendarView'));
+const AMCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/AMCalenderView/AMCalendarView'));
+const CCCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/CCCalenderView/CCCalendarView'));
+const CMCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/CMCalenderView/CMCalendarView'));
+const COCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/COCalenderView/COCalendarView'));
+const CRCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/CRCalenderView/CRCalendarView'));
+const CSCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/CSCalenderView/CSCalendarView'));
+const DMCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/DMCalenderView/DMCalendarView'));
+const GACalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/GACalenderView/GACalendarView'));
+const GPCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/GPCalenderView/GPCalendarView'));
+const GSCalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/GSCalenderView/GSCalendarView'));
 
 
 const routes = [
     { path: '/', name: 'Home', component: DefaultLayout, exact: true },
     { path: '/login', exact: true,  name: 'Login Page', component: Login },
     { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-    { path: '/userprofile', name: 'UserProfile', component: UserProfile,  exact: true},
-    { path: '/calenderOverview', name: 'CalendarOverview', component: CalenderOverview,  exact: true},
+    { path: '/userprofile', name: 'User Profile', component: UserProfile,  exact: true},
+    { path: '/useraccount', name: 'User Account', component: UserAccount,  exact: true},
+
+    { path: '/calenderOverview', name: 'Calendar Overview', component: CalenderOverview,  exact: true},
+    { path: '/calenderView', name: 'Calendar View', component: CalenderView,  exact: true},
+    { path: '/AMcalenderView', name: 'Academic medicine', component: AMCalendar,  exact: true},
+    { path: '/AEcalenderView', name: 'Anaesthesia', component: AECalendar,  exact: true},
+    { path: '/CCcalenderView', name: 'Community child health', component: CCCalendar,  exact: true},
+    { path: '/CMcalenderView', name: "Children's mental health", component: CMCalendar,  exact: true},
+    { path: '/COcalenderView', name: 'Clinical oncology', component: COCalendar,  exact: true},
+    { path: '/CRcalenderView', name: 'Clinical radiology', component: CRCalendar,  exact: true},
+    { path: '/CScalenderView', name: 'Cardiothoracic surgery', component: CSCalendar,  exact: true},
+    { path: '/DMcalenderView', name: 'Dermatology', component: DMCalendar,  exact: true},
+    { path: '/GAcalenderView', name: 'Gastrology', component: GACalendar,  exact: true},
+    { path: '/GPcalenderView', name: 'General practice', component: GPCalendar,  exact: true},
+    { path: '/GScalenderView', name: 'General surgery', component: GSCalendar,  exact: true},
+
 
     // { path: '/theme', name: 'Theme', component: Colors, exact: true },
     // { path: '/theme/colors', name: 'Colors', component: Colors },

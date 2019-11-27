@@ -51,8 +51,10 @@ class ProfessionForm extends Component {
       userId: '',
       specialtyFields: [],
       dbsImage: '',
+      dbsImageFile: '',
       dbsNumber:'',
       cvImage: '',
+      cvImageFile: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -66,14 +68,16 @@ class ProfessionForm extends Component {
   }
 
   onDismiss() {
-    this.setState({ visible: false });
+    this.setState({ 
+      visible: false,
+      uploadSuccess: false 
+    });
   }
 
   componentDidMount(){
     const obj = getFromStorage('app_ng');
 
     if( obj && obj.token) {
-          console.log(obj.userId);
           this.setState({
             userId: obj.userId,
           });
@@ -85,12 +89,9 @@ class ProfessionForm extends Component {
         },
     }).then( response => response.json())
     .then(json => {
-      console.log('location work profile json: ', json);
       if(json.success === true) {
-        console.warn(json.workProfile);
-        console.warn('addy ' + json.workProfile.address )
+
         this.setState({
-          
           specialtyFields: json.workProfile.specialtyFields,
           dbsImage: json.workProfile.dbsImage,
           dbsNumber: json.workProfile.dbsNumber,
@@ -128,8 +129,6 @@ class ProfessionForm extends Component {
       dob,
       workHistory
       } = this.state;
-
-    console.error(this.state.specialtyFields)
 
     fetch('http://localhost:8080/endpoint/workProfile/profession-update', {
       method: 'POST',
@@ -197,7 +196,7 @@ class ProfessionForm extends Component {
     reader.onload=(e)=> {
       console.warn('dbs data', e.target.result)
       this.setState({dbsImage: e.target.result})
-
+      this.setState({dbsImageFile: e.target.result})
     }
   }
 
@@ -246,6 +245,7 @@ class ProfessionForm extends Component {
   onCvSelectedHandler = event => {
     let file = event.target.files[0];
     
+    this.setState({cvImageFile: URL.createObjectURL(event.target.files[0])})
 
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -327,17 +327,13 @@ class ProfessionForm extends Component {
   render() {
 
     const {
-      userId,
       specialtyFields,
-      dbsImage,
       dbsNumber,
-      cvImage,
       firstName,
       lastName,
       email,
       dob,
-      workHistory,
-      professionUpdateError 
+      workHistory, 
     } = this.state;
 
     return (
@@ -371,10 +367,10 @@ class ProfessionForm extends Component {
 
                   <FormGroup row>
                     <Col md="3">
-                      <Label htmlFor="email-input">Email Input</Label>
+                      <Label htmlFor="email-input">Email</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="email" id="email-input" name="email-input" placeholder="Enter Email" autoComplete="email"
+                      <Input type="email" id="email-input" name="email-input" placeholder="Enter Email" autoComplete="email" alignItems= 'center'
                       value = {email} onChange={this.onEmailChanged}/>
                       <FormText className="help-block">Please enter your email</FormText>
                     </Col>
@@ -439,10 +435,16 @@ class ProfessionForm extends Component {
                     <Col md="3">
                       <Label htmlFor="file-input">Cv</Label>
                     </Col>
-                    <Col xs="12" md="6">
+                    <Col xs="12" md="4">
                       <Input type="file" id="cvImage" name="cvImage" 
                        onChange={this.onCvSelectedHandler}  />
                       </Col>
+                      <Col xs="12" md="2">
+    
+                        <div class="media">
+                           <img class="mr-3" src={this.state.cvImage} />
+                      </div>
+                    </Col>
                       <Col xs="12" md="3">
                       <Button color="success" onClick={this.onCvUpload}><i className="fa fa-upload"></i> Upload Cv</Button>
                     </Col>
@@ -452,7 +454,7 @@ class ProfessionForm extends Component {
                       <Label htmlFor="dbsNumber" >DBS Certificate number</Label>
                     </Col>
                     <Col xs="12" md="9">
-                      <Input type="text" id="dbsNumber" placeholder="" required 
+                      <Input type="text" id="dbsNumber" placeholder=""
                       value= {dbsNumber} onChange={this.onDbsNumberChanged}/>
                     </Col>
                   </FormGroup>
@@ -460,10 +462,15 @@ class ProfessionForm extends Component {
                     <Col md="3">
                       <Label htmlFor="file-input"> DBS Certificate</Label>
                     </Col>
-                    <Col xs="12" md="6">
-                      <Input type="file" id="dbsImage-input" name="dbsImage-input" 
+                    <Col xs="12" md="4">
+                      <Input type="file" id="dbsImage-input" name="dbsImage-input" toolText="upload image files to see thumbnail"
                         onChange={this.onDbsSelectedHandler}/>
-                    </Col>
+                        </Col>
+                        <Col xs="12" md="2">
+                          <div class="media">
+                           <img class="mr-3" src={this.state.dbsImage} />
+                          </div>
+                      </Col>
                       <Col xs="12" md="3">
                       <Button color="success" onClick={this.onDbsUpload}><i className="fa fa-upload"></i> Upload Dbs</Button>
                     </Col>

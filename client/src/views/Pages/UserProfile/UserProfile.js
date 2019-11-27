@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {Badge, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
-import classnames from 'classnames';
+import {Nav, NavItem, NavLink, TabContent, TabPane} from 'reactstrap';
 
 import ProfessionForm from './ProfessionForm/ProfessionForm';
 import LocationForm from './LocationForm/LocationForm';

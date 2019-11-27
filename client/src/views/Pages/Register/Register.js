@@ -24,6 +24,7 @@ class Register extends Component {
     this.onTextBoxChangeEmail = this.onTextBoxChangeEmail.bind(this);
     this.onTextBoxChangePassword = this.onTextBoxChangePassword.bind(this);
     this.onTextBoxChangeConfirmPassword = this.onTextBoxChangeConfirmPassword.bind(this);
+    this.onCheckPasswordsMatch = this.onCheckPasswordsMatch.bind(this);
     this.onTextBoxChangeAccountType = this.onTextBoxChangeAccountType.bind(this);
     this.onRegister = this.onRegister.bind(this);
     this.navigateToHome =this.navigateToHome.bind(this);
@@ -78,15 +79,22 @@ class Register extends Component {
   }
 
   navigateToHome(){
-    this.props.history.push('/login');  }
+    this.props.history.push('/login'); 
+  }
 
-  // checkPasswordsMatch() {
-    
-  // }
+  onCheckPasswordsMatch() {
+    if(this.state.password != null && this.state.confirmPassword !=null){
+      if(!this.state.password === this.state.confirmPassword){
+        this.setState({registerError: true})
+      }
+    } else {
+      this.setState({registerError: true})
+    }
+  }
 
   onRegister(){
 
-    //checkPasswordsMatch();
+    // this.onCheckPasswordsMatch();
     // Grab state
     const {
       firstName,

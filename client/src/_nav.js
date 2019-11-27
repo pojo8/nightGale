@@ -39,7 +39,7 @@ export default {
       children: [
         {
           name: 'User account',
-          url: '/base/breadcrumbs',
+          url: '/useraccount',
           icon: 'icon-user',
         },]
     },
@@ -109,6 +109,11 @@ export default {
           name: 'Calender Overview',
           url: '/calenderOverview',
           icon: 'icon-pie-chart',
+        },
+        {
+          name: 'Calender View',
+          url: '/calenderView',
+          icon: 'icon-calendar',
         },
         {
           name: 'Weekly calender',

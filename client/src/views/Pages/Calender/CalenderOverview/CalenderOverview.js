@@ -1,26 +1,19 @@
-import React, { Component, lazy, Suspense } from 'react';
-import { Bar, Line, HorizontalBar , Radar } from 'react-chartjs-2';
+import React, { Component } from 'react';
+import { Bar, Line } from 'react-chartjs-2';
+import { Link } from 'react-router-dom';
 import {
-  Button,
-  ButtonDropdown,
   ButtonGroup,
-  ButtonToolbar,
   Card,
   CardBody,
-  CardFooter,
-  CardHeader,
-  CardTitle,
   Col,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Progress,
   Row,
-  Table,
 } from 'reactstrap';
+
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle, hexToRgba } from '@coreui/coreui-pro/dist/js/coreui-utilities'
 import {
   getFromStorage, 
 } from '../../../../containers/DefaultLayout/utils/Storage';
@@ -36,152 +29,11 @@ function findLabel( fieldArray){
       options.forEach(element => {
           if(element.value === field){
               labels.push(element.label);
-              console.log(labels);
           }
       });
-      console.log(field);
   });
   return labels
 }
-
-// this will be used to retriev the montly totals
-function getChartData(filed){
-  
-}
-
-const Widget03 = lazy(() => import('../../../Widgets/Widget03'));
-
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
-
-// Card Chart 1
-const cardChartData1 = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: brandPrimary,
-      borderColor: 'rgba(255,255,255,.55)',
-      data: [65, 59, 84, 84, 51, 55, 40],
-    },
-  ],
-};
-
-const colourOptions = [
-  "text-white bg-info",
-  "text-white bg-secondary",
-  "text-white bg-success",
-  "text-white bg-danger",
-  "text-white bg-dark",
-]
-
-const cardChartOpts1 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent',
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        },
-
-      }],
-    yAxes: [
-      {
-        display: false,
-        ticks: {
-          display: false,
-          min: Math.min.apply(Math, cardChartData1.datasets[0].data) - 5,
-          max: Math.max.apply(Math, cardChartData1.datasets[0].data) + 5,
-        },
-      }],
-  },
-  elements: {
-    line: {
-      borderWidth: 1,
-    },
-    point: {
-      radius: 4,
-      hitRadius: 10,
-      hoverRadius: 4,
-    },
-  }
-}
-
-
-// Card Chart 2
-const cardChartData2 = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      // backgroundColor: brandInfo,
-      // borderColor: 'rgba(255,255,255,.55)',
-      backgroundColor: 'white',
-      borderColor: 'black',
-      data: [1, 18, 9, 17, 34, 22, 11],
-    },
-  ],
-};
-
-const cardChartOpts2 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent',
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        },
-
-      }],
-    yAxes: [
-      {
-        display: false,
-        ticks: {
-          display: false,
-          min: Math.min.apply(Math, cardChartData2.datasets[0].data) - 5,
-          max: Math.max.apply(Math, cardChartData2.datasets[0].data) + 5,
-        },
-      }],
-  },
-  elements: {
-    line: {
-      tension: 0.00001,
-      borderWidth: 1,
-    },
-    point: {
-      radius: 4,
-      hitRadius: 10,
-      hoverRadius: 4,
-    },
-  },
-};
 
 // Card Chart 3
 const cardChartData3 = {
@@ -227,121 +79,6 @@ const cardChartOpts3 = {
   },
 };
 
-// Card Chart 4
-const cardChartData4 = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: 'rgba(255,255,255,.3)',
-      borderColor: 'transparent',
-      data: [78, 81, 80, 45, 34, 12, 40, 75, 34, 89, 32, 68, 54, 72, 18, 98],
-    },
-  ],
-};
-
-const cardChartOpts4 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        display: false,
-        barPercentage: 0.6,
-      }],
-    yAxes: [
-      {
-        display: false,
-      }],
-  },
-};
-
-
-// sparkline charts
-const sparkLineChartData = [
-  {
-    data: [35, 23, 56, 22, 97, 23, 64],
-    label: 'New Clients',
-  },
-  {
-    data: [65, 59, 84, 84, 51, 55, 40],
-    label: 'Recurring Clients',
-  },
-  {
-    data: [35, 23, 56, 22, 97, 23, 64],
-    label: 'Pageviews',
-  },
-  {
-    data: [65, 59, 84, 84, 51, 55, 40],
-    label: 'Organic',
-  },
-  {
-    data: [78, 81, 80, 45, 34, 12, 40],
-    label: 'CTR',
-  },
-  {
-    data: [1, 13, 9, 17, 34, 41, 38],
-    label: 'Bounce Rate',
-  },
-];
-
-const makeSparkLineData = (dataSetNo, variant) => {
-  const dataset = sparkLineChartData[dataSetNo];
-  const data = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    datasets: [
-      {
-        backgroundColor: 'transparent',
-        borderColor: variant ? variant : '#c2cfd6',
-        data: dataset.data,
-        label: dataset.label,
-      },
-    ],
-  };
-  return () => data;
-};
-
-const sparklineChartOpts = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  responsive: true,
-  maintainAspectRatio: true,
-  scales: {
-    xAxes: [
-      {
-        display: false,
-      }],
-    yAxes: [
-      {
-        display: false,
-      }],
-  },
-  elements: {
-    line: {
-      borderWidth: 2,
-    },
-    point: {
-      radius: 0,
-      hitRadius: 10,
-      hoverRadius: 4,
-      hoverBorderWidth: 3,
-    },
-  },
-  legend: {
-    display: false,
-  },
-};
-
-// Main Chart
-
 //Random Numbers
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -358,81 +95,6 @@ for (var i = 0; i <= elements; i++) {
   data3.push(65);
 }
 
-const mainChart = {
-  labels: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: hexToRgba(brandInfo, 10),
-      borderColor: brandInfo,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: data1,
-    },
-    {
-      label: 'My Second dataset',
-      backgroundColor: 'transparent',
-      borderColor: brandSuccess,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: data2,
-    },
-    {
-      label: 'My Third dataset',
-      backgroundColor: 'transparent',
-      borderColor: brandDanger,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 1,
-      borderDash: [8, 5],
-      data: data3,
-    },
-  ],
-};
-
-const mainChartOpts = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips,
-    intersect: true,
-    mode: 'index',
-    position: 'nearest',
-    callbacks: {
-      labelColor: function(tooltipItem, chart) {
-        return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor }
-      }
-    }
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      }],
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-          maxTicksLimit: 5,
-          stepSize: Math.ceil(250 / 5),
-          max: 250,
-        },
-      }],
-  },
-  elements: {
-    point: {
-      radius: 0,
-      hitRadius: 10,
-      hoverRadius: 4,
-      hoverBorderWidth: 3,
-    },
-  },
-};
-
 class CalenderOverview extends Component {
   constructor(props) {
     super(props);
@@ -443,16 +105,59 @@ class CalenderOverview extends Component {
     this.state = {
       userId: '',
       specialtyFields: [],
+      AM: false,
+      AE: false,
+      CS: false,
+      CM: false,
+      CR: false,
+      CO: false,
+      CC: false,
+      DM: false,
+      EM: false,
+      GA: false,
+      GP: false,
+      GS: false,
+      ID: false,
+      OG: false,
+      OC: false,
+      OP: false,
+      OM: false,
+      OT: false,
+      PC: false,
+      NE: false,
+      NU: false,
+      PA: false,
+      PE: false,
+      PN: false,
+      PG: false,
+      PI: false,
+      PZ: false,
+      PH: false,
+      PD: false,
+      PU: false,
+      PO: false,
+      PR: false,
+      PM: false,
+      PS: false,
+      PY: false,
+      PL: false,
+      CH: false,
+      PB: false,
+      SE: false,
+      TO: false,
+      UR: false,
+      VS: false,
       dropdownOpen: false,
       radioSelected: 2,
     };
   }
 
-  componentDidMount(){
+  // componentDidMount(){
+
+    UNSAFE_componentWillMount(){
     const obj = getFromStorage('app_ng');
 
     if( obj && obj.token) {
-          console.log(obj.userId);
           this.setState({
             userId: obj.userId,
           });
@@ -463,21 +168,14 @@ class CalenderOverview extends Component {
             },
         }).then( response => response.json())
         .then(json => {
-          console.log('work profile json: ', json);
           if(json.success === true) {
-            console.warn(json.workProfile);
-            console.error(json.workProfile.specialtyFields)
-            // Need to find a means of representing the image data
 
-            // need to convert it back to image
             this.setState({
                 specialtyFields: json.workProfile.specialtyFields,
             });
 
-            console.error(findLabel(this.state.specialtyFields))
+            this.showCalender(this.state.specialtyFields)
 
-            console.log('certification info synced')
-    
           } else {
            
             console.log('No existing workprofile found ')
@@ -485,6 +183,185 @@ class CalenderOverview extends Component {
         });
         } else {
           console.error('user id is not found');
+        }
+      }
+  
+  // Not proud of this but it is wokring ffs
+  showCalender( fieldArray){
+        if(fieldArray.includes('AM')){
+          this.setState({
+            AM: true,
+          });
+        }
+        if(fieldArray.includes('AE')){
+          this.setState({
+            AE: true,
+          });
+        }if(fieldArray.includes('CS')){
+          this.setState({
+            CS: true,
+          });
+        }
+        if(fieldArray.includes('CM')){
+          this.setState({
+            CM: true,
+          });
+        }if(fieldArray.includes('CR')){
+          this.setState({
+            CR: true,
+          });
+        }if(fieldArray.includes('CO')){
+          this.setState({
+            CO: true,
+          });
+        }if(fieldArray.includes('CH')){
+          this.setState({
+            CH: true,
+          });
+        }if(fieldArray.includes('DM')){
+          this.setState({
+            DM: true,
+          });
+        }if(fieldArray.includes('EM')){
+          this.setState({
+            EM: true,
+          });
+        }if(fieldArray.includes('GA')){
+          this.setState({
+            GA: true,
+          });
+        }if(fieldArray.includes('GP')){
+          this.setState({
+            GP: true,
+          });
+        }if(fieldArray.includes('GS')){
+          this.setState({
+            GS: true,
+          });
+        }if(fieldArray.includes('ID')){
+          this.setState({
+            ID: true,
+          });
+        }if(fieldArray.includes('OG')){
+          this.setState({
+            OG: true,
+          });
+        }if(fieldArray.includes('OC')){
+          this.setState({
+            OC: true,
+          });
+        }if(fieldArray.includes('OP')){
+          this.setState({
+            OP: true,
+          });
+        }if(fieldArray.includes('OM')){
+          this.setState({
+            OM: true,
+          });
+        }if(fieldArray.includes('OT')){
+          this.setState({
+            OT: true,
+          });
+        }if(fieldArray.includes('PC')){
+          this.setState({
+            PC: true,
+          });
+        }if(fieldArray.includes('NE')){
+          this.setState({
+            NE: true,
+          });
+        }if(fieldArray.includes('NU')){
+          this.setState({
+            NU: true,
+          });
+        }if(fieldArray.includes('PA')){
+          this.setState({
+            PA: true,
+          });
+        }if(fieldArray.includes('PP')){
+          this.setState({
+            PP: true,
+          });
+        }if(fieldArray.includes('PE')){
+          this.setState({
+            PE: true,
+          });
+        }if(fieldArray.includes('PN')){
+          this.setState({
+            PN: true,
+          });
+        }if(fieldArray.includes('PG')){
+          this.setState({
+            PG: true,
+          });
+        }if(fieldArray.includes('PI')){
+          this.setState({
+            PI: true,
+          });
+        }if(fieldArray.includes('PZ')){
+          this.setState({
+            PZ: true,
+          });
+        }if(fieldArray.includes('PH')){
+          this.setState({
+            PH: true,
+          });
+        }if(fieldArray.includes('PD')){
+          this.setState({
+            PD: true,
+          });
+        }if(fieldArray.includes('PU')){
+          this.setState({
+            PU: true,
+          });
+        }if(fieldArray.includes('PO')){
+          this.setState({
+            PO: true,
+          });
+        }if(fieldArray.includes('PR')){
+          this.setState({
+            PR: true,
+          });
+        }if(fieldArray.includes('PM')){
+          this.setState({
+            PM: true,
+          });
+        }if(fieldArray.includes('PS')){
+          this.setState({
+            PS: true,
+          });
+        }if(fieldArray.includes('PY')){
+          this.setState({
+            PY: true,
+          });
+        }if(fieldArray.includes('PL')){
+          this.setState({
+            PL: true,
+          });
+        }if(fieldArray.includes('CH')){
+          this.setState({
+            CH: true,
+          });
+        }if(fieldArray.includes('PB')){
+          this.setState({
+            PB: true,
+          });
+        }if(fieldArray.includes('SE')){
+          this.setState({
+            SE: true,
+          });
+        }if(fieldArray.includes('TO')){
+          this.setState({
+            TO: true,
+          });
+        }if(fieldArray.includes('UR')){
+          this.setState({
+            UR: true,
+          });
+        }if(fieldArray.includes('VS')){
+          this.setState({
+            VS: true,
+          });
         }
       }
 
@@ -504,198 +381,1111 @@ class CalenderOverview extends Component {
 
   render() {
 
-    const calenders = []
-    const fieldsValue = this.state.specialtyFields;
-    const fields = findLabel(fieldsValue);
-    for( let field of fields) {
-      console.log('fields: '+ fields)
-      console.log('field' + field)
-     calenders.push( <Col xs="12" sm="6" lg="3">
-            <Card className={colourOptions[Math.floor(Math.random()*colourOptions.length)]}>
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <ButtonDropdown id={field} isOpen={this.state.card1} toggle={() => { this.setState({ card1: !this.state.card1 }); }}>
-                    <DropdownToggle caret className="p-0" color="transparent">
-                      <i className="icon-settings"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem disabled>Disabled action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </ButtonGroup>
-                <div className="text-value">{field}</div>
-                <div>Hours accumulated:</div>
-                <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
-
-                  <Bar data={getChartData(cardChartData2)} options={cardChartOpts2} height={70} />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>)
-    }
     return (
       <div className="animated fadeIn">
         <Row>
 
-          {calenders}
-
-          <Col xs="12" sm="6" lg="3">
-         {/* //</Col> <Card className="text-white bg-info"> */}
-
+          {this.state.AM ?
+            <Col xs="12" sm="6" lg="4">
             <Card className="text-white bg-info">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
-                  <ButtonDropdown id='card1' isOpen={this.state.card1} toggle={() => { this.setState({ card1: !this.state.card1 }); }}>
+                  <Dropdown id='card3' isOpen={this.state.AMcard} toggle={() => { this.setState({ AMcard: !this.state.AMcard }); }}>
                     <DropdownToggle caret className="p-0" color="transparent">
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem disabled>Disabled action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Card 1</div>
-                <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
-                  <HorizontalBar data={cardChartData2} options={cardChartOpts2} height={70} />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-primary">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <Dropdown id='card2' isOpen={this.state.card2} toggle={() => { this.setState({ card2: !this.state.card2 }); }}>
-                    <DropdownToggle className="p-0" color="transparent">
-                      <i className="icon-location-pin"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
+                      {/* format to add clickable dropdown item */}
+                      <DropdownItem tag ={Link} to="/AMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Card 2</div>
-                <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
-                  <Radar data={cardChartData1} options={cardChartOpts1} height={70} />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-warning">
-              <CardBody className="pb-0">
-                <ButtonGroup className="float-right">
-                  <Dropdown id='card3' isOpen={this.state.card3} toggle={() => { this.setState({ card3: !this.state.card3 }); }}>
-                    <DropdownToggle caret className="p-0" color="transparent">
-                      <i className="icon-settings"></i>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Card 3</div>
+                <div className="text-value">Academic Medicine</div>
+                <div>Hours logged:</div>
               </CardBody>
               <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
                 <Line data={cardChartData3} options={cardChartOpts3} height={70} />
               </div>
             </Card>
-          </Col>
-
-          <Col xs="12" sm="6" lg="3">
-            <Card className="text-white bg-danger">
+          </Col> : null}
+          {this.state.AE ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
               <CardBody className="pb-0">
                 <ButtonGroup className="float-right">
-                  <ButtonDropdown id='card4' isOpen={this.state.card4} toggle={() => { this.setState({ card4: !this.state.card4 }); }}>
+                  <Dropdown id='card3' isOpen={this.state.AEcard} toggle={() => { this.setState({ AEcard: !this.state.AEcard }); }}>
                     <DropdownToggle caret className="p-0" color="transparent">
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>View Calender</DropdownItem>
-                      <DropdownItem>Create invoice</DropdownItem>
+                      <DropdownItem tag ={Link} to="/AEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
+
                     </DropdownMenu>
-                  </ButtonDropdown>
+                  </Dropdown>
                 </ButtonGroup>
-                <div className="text-value">9.823</div>
-                <div>Card 4</div>
+                <div className="text-value">Anaesthesia</div>
+                <div>Hours logged:</div>
               </CardBody>
-              <div className="chart-wrapper mt-3 mx-3" style={{ height: '70px' }}>
-                <Bar data={cardChartData4} options={cardChartOpts4} height={70} />
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
               </div>
             </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Card>
-              <CardBody>
-                <Row>
-                  <Col sm="5">
-                    <CardTitle className="mb-0">Traffic</CardTitle>
-                    <div className="small text-muted">November 2015</div>
-                  </Col>
-                  <Col sm="7" className="d-none d-sm-inline-block">
-                    <Button color="primary" className="float-right"><i className="icon-cloud-download"></i></Button>
-                    <ButtonToolbar className="float-right" aria-label="Toolbar with button groups">
-                      <ButtonGroup className="mr-3" aria-label="First group">
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(1)} active={this.state.radioSelected === 1}>Day</Button>
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(2)} active={this.state.radioSelected === 2}>Month</Button>
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(3)} active={this.state.radioSelected === 3}>Year</Button>
-                      </ButtonGroup>
-                    </ButtonToolbar>
-                  </Col>
-                </Row>
-                <div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
-                  <Line data={mainChart} options={mainChartOpts} height={300} />
-                </div>
+          </Col> : null}
+
+          {this.state.CS ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CScard} toggle={() => { this.setState({ CScard: !this.state.CScard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/CScalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Cardiothoracic surgery</div>
+                <div>Hours logged:</div>
               </CardBody>
-              <CardFooter>
-                <Row className="text-center">
-                  <Col sm={12} md className="mb-sm-2 mb-0">
-                    <div className="text-muted">Visits</div>
-                    <strong>29.703 Users (40%)</strong>
-                    <Progress className="progress-xs mt-2" color="success" value="40" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0 d-md-down-none">
-                    <div className="text-muted">Unique</div>
-                    <strong>24.093 Users (20%)</strong>
-                    <Progress className="progress-xs mt-2" color="info" value="20" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0">
-                    <div className="text-muted">Pageviews</div>
-                    <strong>78.706 Views (60%)</strong>
-                    <Progress className="progress-xs mt-2" color="warning" value="60" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0">
-                    <div className="text-muted">New Users</div>
-                    <strong>22.123 Users (80%)</strong>
-                    <Progress className="progress-xs mt-2" color="danger" value="80" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0 d-md-down-none">
-                    <div className="text-muted">Bounce Rate</div>
-                    <strong>Average Rate (40.15%)</strong>
-                    <Progress className="progress-xs mt-2" color="primary" value="40" />
-                  </Col>
-                </Row>
-              </CardFooter>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
             </Card>
-          </Col>
+          </Col> : null}
+
+          {this.state.CM ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CMcard} toggle={() => { this.setState({ CMcard: !this.state.CMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/CMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Anaesthesia</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.CR ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CRcard} toggle={() => { this.setState({ CRcard: !this.state.CRcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/CRcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Clinical radiology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.CO ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.COcard} toggle={() => { this.setState({ COcard: !this.state.COcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/COcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Clinical oncology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.CM ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CMcard} toggle={() => { this.setState({ CMcard: !this.state.CMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/CMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Anaesthesia</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.CC ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CCcard} toggle={() => { this.setState({ CCcard: !this.state.CCcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/CCcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Community child health</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.DM ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.DMcard} toggle={() => { this.setState({ DMcard: !this.state.DMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/DMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Dermatology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.EM ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.EMcard} toggle={() => { this.setState({ EMcard: !this.state.EMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/EMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Emergency medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.GA ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.GAcard} toggle={() => { this.setState({ GAcard: !this.state.GAcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/GAcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Gastrology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.GP ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.GPcard} toggle={() => { this.setState({ GPcard: !this.state.GPcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/GPcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">General</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.GS ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.GScard} toggle={() => { this.setState({ GScard: !this.state.GScard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/GScalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">General surgery</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.ID ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.IDcard} toggle={() => { this.setState({ IDcard: !this.state.IDcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/IDcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Infectious diseases</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.OG ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.OGcard} toggle={() => { this.setState({ OGcard: !this.state.OGcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/OGcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Obstetrics and gynaecology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.OC ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.OCcard} toggle={() => { this.setState({ OCcard: !this.state.OCcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/OCcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Occupational medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.OP ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.OPcard} toggle={() => { this.setState({ OPcard: !this.state.OPcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/OPcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Opthalmology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.OM ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.OMcard} toggle={() => { this.setState({ OMcard: !this.state.OMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/OMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Oral and maxillofacial</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.OT ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.OTcard} toggle={() => { this.setState({ OTcard: !this.state.CMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/OTcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Otolaryngology (ENT)</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PC ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PCcard} toggle={() => { this.setState({ PCard: !this.state.PCcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PCcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatrics and child helath</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.NE ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CMcard} toggle={() => { this.setState({ NEcard: !this.state.NEcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/NEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Neonatal medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.NU ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.NUcard} toggle={() => { this.setState({ NUcard: !this.state.NUcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/NUcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Neurosurgery</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PA ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CMcard} toggle={() => { this.setState({ PAcard: !this.state.PAcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PAcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric accident and emergency mendicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PP ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PPcard} toggle={() => { this.setState({ PPcard: !this.state.PPcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PPcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric clinical pharmacology and therapeutics</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PE ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PEcard} toggle={() => { this.setState({ PEcard: !this.state.PEcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric emergency medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PN ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PNcard} toggle={() => { this.setState({ PNcard: !this.state.PNcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PNcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric endocrinology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.PG ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PGcard} toggle={() => { this.setState({ PGcard: !this.state.PGcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PGcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric gastroenterology, hepatology and nutrition</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PI ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PIcard} toggle={() => { this.setState({ PIcard: !this.state.PIcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PIcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric infectious diseases and immunology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PZ ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PZcard} toggle={() => { this.setState({ PZcard: !this.state.PZcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PZcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric intensive care medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.PH ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PHcard} toggle={() => { this.setState({ PHcard: !this.state.PHcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PHcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric nephrology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PD ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CMcard} toggle={() => { this.setState({ PDcard: !this.state.PDcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PDcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric neurodisability</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PU ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PUcard} toggle={() => { this.setState({ PUcard: !this.state.PUcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PUcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric neurology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PO ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.POcard} toggle={() => { this.setState({ CMcard: !this.state.POcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/POcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric oncology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PR ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PRcard} toggle={() => { this.setState({ PRcard: !this.state.PRcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PRcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric respiratory medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PM ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PMcard} toggle={() => { this.setState({ CMcard: !this.state.PMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric rheumatology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PS ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CMcard} toggle={() => { this.setState({ PScard: !this.state.PScard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PScalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Paediatric surgery</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PA ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CMcard} toggle={() => { this.setState({ PAcard: !this.state.PAcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PAcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Pathology</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.PL ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PLcard} toggle={() => { this.setState({ PLcard: !this.state.CMcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PLcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Plastic surgery</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.CH ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.CHcard} toggle={() => { this.setState({ CHcard: !this.state.CHcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/CHcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Psychiatry</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          
+          {this.state.PB ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.PBcard} toggle={() => { this.setState({ PBcard: !this.state.PBcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/PBcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Public health medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.SE ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.SEcard} toggle={() => { this.setState({ SEcard: !this.state.SEcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/SEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Sport and exercise medicine</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.TO ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.TOcard} toggle={() => { this.setState({ TOcard: !this.state.TOcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/TOcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Trauma and orthopaedic surgery</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+          
+          {this.state.UR ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.URcard} toggle={() => { this.setState({ URcard: !this.state.URcard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem Link to="/URcalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">urology surgery</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
+
+          {this.state.VS ?
+            <Col xs="12" sm="6" lg="4">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card3' isOpen={this.state.VScard} toggle={() => { this.setState({ VScard: !this.state.VScard }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag ={Link} to="/VScalenderView">View Calender</DropdownItem>
+                      <DropdownItem>Generate invoice</DropdownItem>
+                      <DropdownItem>Search for shifts</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">Vascular surgery</div>
+                <div>Hours logged:</div>
+              </CardBody>
+              <div className="chart-wrapper mt-3" style={{ height: '70px' }}>
+                <Line data={cardChartData3} options={cardChartOpts3} height={70} />
+              </div>
+            </Card>
+          </Col> : null}
         </Row>
       </div>
     );

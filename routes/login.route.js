@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const nodemailer = require('nodemailer');
 
 // Express route
 const loginExpressRoute  = express.Router();
@@ -166,6 +167,382 @@ loginExpressRoute.route('/account/logout').get((request, response, next) =>{
       });
     });
 
+// update certification tab
+loginExpressRoute.route('/account/user-update').post((request, response, next) =>{
+        const { body } = request;
+        // console.log('body', body);
+        let {
+            userId,
+            firstName,
+            lastName,
+            email,
+            hourlyRate,  
+        } = body;
+    
+        // verify email doesnt exist
+        // FIXME validate email
+        UserSchema.find({
+            _id: userId
+        }, (error, userList) => {
+            if (error) {
+                return response.send({
+                    success: false,
+                    message:'Error: Server error'
+                });
+            } else if (userList.length < 0 || userList.length >1)  {
+                console.log(users)
+                return response.send({
+                    success: false,
+                    message:'Error: More a than one user found'
+                });
+            }
+    
+        //const user = userList[0];
+    
+        const updateUserInfo = new UserSchema();
+        updateUserInfo._id = userId;
+        updateUserInfo.firstName = firstName;
+        updateUserInfo.lastName = lastName;
+        updateUserInfo.email = email;
+        updateUserInfo.hourlyRate = hourlyRate;
+
+    
+        UserSchema.findOneAndUpdate({'_id': userId}, updateUserInfo, {upsert:true}, function(error, doc){
+    
+            if (error) {
+                console.error(error);
+                return response.send({
+                    success: false,
+                    msg: "Error: work proifile location infor not updated"
+                });
+            } else {
+                console.log(updateUserInfo);
+                response.status(200).json({
+                    success: true,
+                    userInfo: updateUserInfo
+                })
+            }    
+        })
+     });
+});
+
+loginExpressRoute.route('/account/get-user/:userId').get((request, response) => {
+    // request.params.{value id the params field} is where valeus are stored
+    UserSchema.find({
+        _id: request.params.userId
+    }, (error, data) => {
+        if (error) {
+            return response.send({
+                success: false,
+                messaged: 'Error: Server error'
+            });
+        } else {
+            // In the event of an ok response output the messageworkProfile
+            return response.send({
+                success: true,
+                // This is to get only first result form array of results
+                userProfile: data[0]
+            });        
+        }
+    })
+})
+
+//FIXME add the implementation
+// force change with email password and uid
+loginExpressRoute.route('/account/changePassword').post((request, response, next) =>{
+    const { body } = request;
+    const{
+        userId,
+        password,
+        email,
+    } = body;
+
+    if(!email || !password) {
+        response.send({
+            success: false,
+            message: 'Error: Fill in all the required fieldsfields'
+        });
+        }
+
+    // verify email doesnt exist
+    // FIXME validate email
+    UserSchema.find({
+        _id: userId
+    }, (error, userList) => {
+        if (error) {
+            return response.send({
+                success: false,
+                message:'Error: Server error'
+            });
+        } else if (userList.length < 0 || userList.length >1)  {
+            console.log(users)
+            return response.send({
+                success: false,
+                message:'Error: Invalid'
+            });
+        }
+
+   // const user = userList[0];
+
+    const updatedUser = new UserSchema()
+    
+    // Removes the force pwd update and sets new password 
+    updatedUser.password = updatedUser.generateHash(password);
+    updatedUser._id = userId;
+    updatedUser.email = email;
+    updatedUser.forcePasswordReset =  false;
+
+    // updates the user password
+    UserSchema.findOneAndUpdate({'_id': userId, 'email': email}, updatedUser, {upsert:true}, function(error, doc){
+
+        if (error) {
+            console.error(error);
+            return response.send({
+                success: false,
+                msg: "Error: updating the new user password"
+            });
+        } else {
+            return response.send({
+                success: true,
+                forcePasswordReset:false,
+            });
+        }    
+    })
+ });
+});
+
+loginExpressRoute.route('/account/change-password').post((request, response, next) =>{
+    const { body } = request;
+    const{
+        userId,
+        password,
+       // email,
+    } = body;
+
+    if(!password) {
+        response.send({
+            success: false,
+            message: 'Error: Fill in all the required fieldsfields'
+        });
+        }
+
+    // verify email doesnt exist
+    // FIXME validate email
+    UserSchema.find({
+        _id: userId
+    }, (error, userList) => {
+        if (error) {
+            return response.send({
+                success: false,
+                message:'Error: Server error'
+            });
+        } else if (userList.length < 0 || userList.length >1)  {
+            console.log(users)
+            return response.send({
+                success: false,
+                message:'Error: Invalid'
+            });
+        }
+
+   // const user = userList[0];
+
+    const updatedUser = new UserSchema()
+    
+    // Removes the force pwd update and sets new password 
+    updatedUser.password = updatedUser.generateHash(password);
+    updatedUser._id = userId;
+    updatedUser.forcePasswordReset =  false;
+
+    // updates the user password
+    UserSchema.findOneAndUpdate({'_id': userId}, updatedUser, {upsert:true}, function(error, doc){
+
+        if (error) {
+            console.error(error);
+            return response.send({
+                success: false,
+                msg: "Error: updating the new user password"
+            });
+        } else {
+            response.status(200).json({
+                success: true,
+                forcePasswordReset:false,
+            })
+        }    
+    })
+ });
+});
+
+// FIXME add teh implementations
+//forgot password
+loginExpressRoute.route('/account/forgot-password').post((request, response, next) =>{
+    const { body } = request;
+
+    let {email} = body;
+
+    if(!email) {
+        response.send({
+            success: false,
+            message: 'Error: Email is not in the db'
+        });
+        }
+
+    email = email.toLowerCase();
+    // verify email doesnt exist
+    // FIXME validate email
+    UserSchema.find({
+        email: email
+    }, (error, userList) => {
+        if (error) {
+            return response.send({
+                success: false,
+                message:'Error: Server error'
+            });
+        } else if (userList.length < 0 || userList.length >1)  {
+            console.log(users)
+            return response.send({
+                success: false,
+                message:'Error: Invalid'
+            });
+        }
+
+    const user = userList[0];
+    // if (!user.generateRandPassword(password)) {
+    //     return response.send({
+    //         success: false,
+    //         message:'Error: Invalid'
+    //     });
+    // }   
+
+    const updatedUser = new UserSchema();
+
+
+    // const randomString = Math.random().toString();
+    const dateStr = Date.now().toString()
+    const updatedToken = updatedUser.generateRandPassword(dateStr);
+    console.warn('The random seed used to create reset pwd' + dateStr)
+    console.warn('The updated pwd' + updatedToken)
+    
+    updatedUser._id = user._id;
+    updatedUser.resetPasswordToken = updatedToken;
+    updatedUser.resetPasswordExpiry = Date.now() + 360000;
+    updatedUser.forcePasswordReset =  true;
+
+    // updates the user password
+    UserSchema.findOneAndUpdate({'email': email}, updatedUser, {upsert:true}, function(error, doc){
+
+        if (error) {
+            console.error(error);
+            return response.send({
+                success: false,
+                msg: "Error: updating the new user password"
+            });
+        } else {
+            
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+        //   user: `${process.env.EMAIL_ADDRESS}`,
+        //   pass: `${process.env.EMAIL_PASSWORD}`,
+          user: `${process.env.EMAIL_ADDRESS}`,
+          pass: `${process.env.EMAIL_PASSWORD}`,
+        },
+      });
+
+      const mailOptions = {
+        from: `${process.env.EMAIL_ADDRESS}`,
+        to: `${user.email}`,
+        subject: 'Temporary Password',
+        text:
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
+          + 'Please use the temporary password to login within one hour of receiving it:\n\n'
+          + `${updatedToken}\n\n`
+          + 'Sfter logging in you will be prompted to change your password.\n',
+      };
+
+      console.log('sending mail');
+
+      // 
+      transporter.sendMail(mailOptions, (error, data) =>{
+          if(error){
+            response.send({
+                success: false,
+                forcePasswordReset:false,
+                message: data
+            });
+
+          } else {
+            return response.send({
+                    success: true,
+                    forcePasswordReset:true,
+                });
+          }
+      })
+
+//       transporter.sendMail(mailOptions, (err, response) => {
+//         if (err) {
+//           console.error('there was an error: ', err);
+//         } else {
+//           console.log('here is the res: ', response);
+//           res.status(200).json('recovery email sent');
+//         }
+
+            // response.status(200).json({
+            //     success: true,
+            //     forcePasswordReset:true,
+            // })
+        }    
+    })
+ });
+});
+
+// UserSchema.findOne({
+//     where: {
+//     email: email,
+//     },
+// }).then((user) => {
+//     if (user === null) {
+//       console.error('email not in database');
+//       res.status(403).send('email not in db');
+//     } else {
+//       const token = updatedUser.generateRandPassword(Math.random().toString());
+//       console.log('Updated token'+token);
+//       user.update({
+//         resetPasswordToken: token,
+//         resetPasswordExpires: Date.now() + 360000,
+//       });
+
+//       const transporter = nodemailer.createTransport({
+//         service: 'gmail',
+//         auth: {
+//           user: `${process.env.EMAIL_ADDRESS}`,
+//           pass: `${process.env.EMAIL_PASSWORD}`,
+//         },
+//       });
+
+//       const mailOptions = {
+//         from: 'mySqlDemoEmail@gmail.com',
+//         to: `${user.email}`,
+//         subject: 'Link To Reset Password',
+//         text:
+//           'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
+//           + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
+//           + `http://localhost:3031/reset/${token}\n\n`
+//           + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+//       };
+
+//       console.log('sending mail');
+
+//       transporter.sendMail(mailOptions, (err, response) => {
+//         if (err) {
+//           console.error('there was an error: ', err);
+//         } else {
+//           console.log('here is the res: ', response);
+//           res.status(200).json('recovery email sent');
+//         }
+//       });
+//     }
+//   });
+// });
 
 //Verifies the session Id
 loginExpressRoute.route('/account/verify').get((request, response, next) =>{

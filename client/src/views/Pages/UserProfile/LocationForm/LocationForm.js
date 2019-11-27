@@ -10,7 +10,6 @@ import {
   FormGroup,
   Input,
   Label,
-  Row,
 } from 'reactstrap';
 
 import {
@@ -54,14 +53,15 @@ class LocationForm extends Component {
   }
 
   onDismiss() {
-    this.setState({ visible: false });
+    this.setState({ 
+      visible: false,
+      uploadSuccess: false });
   }
 
   componentDidMount(){
     const obj = getFromStorage('app_ng');
 
     if( obj && obj.token) {
-          console.log(obj.userId);
           this.setState({
             userId: obj.userId,
           });
@@ -75,8 +75,6 @@ class LocationForm extends Component {
     .then(json => {
       console.log('location work profile json: ', json);
       if(json.success === true) {
-        console.warn(json.workProfile);
-        console.warn('addy ' + json.workProfile.address )
         this.setState({
           address: json.workProfile.address,
           city: json.workProfile.city,
@@ -151,7 +149,7 @@ class LocationForm extends Component {
       }),
     }).then( response => response.json())
     .then(json => {
-      console.log('location json: ', json);
+      // console.log('location json: ', json);
       if(json.success === true) {
         
         this.setState({
@@ -172,18 +170,7 @@ class LocationForm extends Component {
   }
 
   onResetLocationForm(){
-    // const { 
-    //   userId,
-    //   address,
-    //   city,
-    //   postCode,
-    //   country,
-    //   travelDistance,
-    //   locationUpdateError
-    // } = this.state
-
-    // alert(this.state);
-
+  
     this.setState({
           address: '',
           city: '',
@@ -208,15 +195,11 @@ class LocationForm extends Component {
   render() {
 
     const { 
-      userId,
       address,
       city,
       postCode,
       country,
       travelDistance,
-      uploadSuccess,
-      visible,
-
     } = this.state
 
     return (

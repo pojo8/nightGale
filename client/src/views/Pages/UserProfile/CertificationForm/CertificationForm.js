@@ -55,7 +55,10 @@ class CertificationForm extends Component {
   }
 
   onDismiss() {
-    this.setState({ visible: false });
+    this.setState({ 
+      visible: false,
+      uploadSuccess: false 
+    });
   }
 
   componentDidMount(){
@@ -127,7 +130,7 @@ class CertificationForm extends Component {
     }  
   }
 
-  onMedCertSelectedHandlerSelectedHandler = event => {
+  onMedCertSelectedHandler = event => {
     let file = event.target.files[0];
     
     let reader = new FileReader();
@@ -148,25 +151,12 @@ class CertificationForm extends Component {
 
     reader.onload=(e)=> {
       console.warn('img data', e.target.result)
-      this.setState({vacHist: e.target.result})
+      this.setState({vaccinationHistImage: e.target.result})
 
     }  
   }
 
-  onVacinationHistSelectedHandler = event => {
-    let file = event.target.files[0];
-    
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload=(e)=> {
-      console.warn('img data', e.target.result)
-      this.setState({vacHist: e.target.result})
-
-    }  
-  }
-
-  onReferenceSelectedHandlerSelectedHandler = event => {
+  onReferenceSelectedHandler = event => {
     let file = event.target.files[0];
     
     let reader = new FileReader();
@@ -298,43 +288,6 @@ class CertificationForm extends Component {
     }); 
   }
 
-  onMedCertUpload() {
-    const {
-      userId,
-      medicalCertImage,
-
-      } = this.state;
-
-      console.log('State before htransit: '+ this.state.medicalCertImage)
-
-    fetch('http://localhost:8080/endpoint/workProfile/certification-update', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        userId: userId,
-        medicalCertImage: medicalCertImage,
-      }),
-    }).then( response => response.json())
-    .then(json => {
-      console.log('certification json: ', json);
-      if(json.success === true) {
-        this.setState({
-          uploadSuccess: true,
-          certificationUpdateError: false,
-        });
-        console.log('certification upload gmc successful')
-
-      } else {
-        this.setState({
-          // loginSuccess: false,
-          certificationUpdateError: true,
-        });
-        console.log('Error: uploading gmc certificate')
-      }
-    }); 
-  }
 
   onResetCertificateInfo() {
     this.setState({
@@ -364,7 +317,7 @@ class CertificationForm extends Component {
         } = this.state;
   
   
-      fetch('http://localhost:8080/endpoint/workProfile/profession-update', {
+      fetch('http://localhost:8080/endpoint/workProfile/certification-update', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
@@ -411,15 +364,6 @@ class CertificationForm extends Component {
 
     const { 
       gmcNumber,
-      userId,
-      gmcImage,
-      f1CertImage,
-      medicalCertImage,
-      vaccinationHistImage,
-      references,
-      certificationUpdateError,
-      uploadSuccess,
-      visible,
         } = this.state;
 
     return (
@@ -439,8 +383,8 @@ class CertificationForm extends Component {
                     <Col md="3">
                       <Label htmlFor="gmcNumber" >GMC number</Label>
                     </Col>
-                    <Col xs="12" md="9">
-                      <Input type="text" id="gmcNumber" placeholder="" required 
+                    <Col xs="12" md="6">
+                      <Input type="text" id="gmcNumber" placeholder=""
                       value= {gmcNumber} onChange={this.onGmcNumberChanged}/>
                     </Col>
                   </FormGroup>
@@ -448,10 +392,15 @@ class CertificationForm extends Component {
                     <Col md="3">
                       <Label htmlFor="cv-input">Upload GMC certificate</Label>
                     </Col>
-                    <Col xs="12" md="6">
+                    <Col xs="12" md="4">
                       <Input type="file" id="dbs-input" name="dbs-input" 
                       onChange={this.onGmcSelectedHandler}/>
                     </Col>
+                    <Col xs="12" md="2">
+                          <div class="media">
+                           <img class="mr-3" src={this.state.gmcImage} />
+                          </div>
+                      </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onGmcUpload}><i className="fa fa-upload"></i> GMC certificate</Button>
                     </Col>
@@ -460,10 +409,15 @@ class CertificationForm extends Component {
                     <Col md="3">
                       <Label htmlFor="file-input">Upload F1 signed off certifacte</Label>
                     </Col>
-                    <Col xs="12" md="6">
+                    <Col xs="12" md="4">
                       <Input type="file" id="dbs-input" name="dbs-input" 
                        onChange={this.onF1SelectedHandler}/>
                     </Col>
+                    <Col xs="12" md="2">
+                          <div class="media">
+                           <img class="mr-3" src={this.state.f1CertImage} />
+                          </div>
+                      </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onF1CertUpload}><i className="fa fa-upload"></i> F1 Certificate</Button>
                     </Col>
@@ -472,10 +426,15 @@ class CertificationForm extends Component {
                     <Col md="3">
                       <Label htmlFor="file-input">Upload Medical certificate</Label>
                     </Col>
-                    <Col xs="12" md="6">
+                    <Col xs="12" md="4">
                       <Input type="file" id="dbs-input" name="dbs-input" 
                       onChange={this.onMedCertSelectedHandler}/>
                     </Col>
+                    <Col xs="12" md="2">
+                          <div class="media">
+                           <img class="mr-3" src={this.state.medicalCertImage}/>
+                          </div>
+                      </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onMedCertUpload}><i className="fa fa-upload"></i> Medical certificate</Button>
                     </Col>
@@ -484,10 +443,15 @@ class CertificationForm extends Component {
                     <Col md="3">
                       <Label htmlFor="file-multiple-input">Upload Vacination history</Label>
                     </Col>
-                    <Col xs="12" md="6">
+                    <Col xs="12" md="4">
                       <Input type="file" id="dbs-input" name="dbs-input" 
                       onChange={this.onVacinationHistSelectedHandler}/>
                     </Col>
+                    <Col xs="12" md="2">
+                          <div class="media">
+                           <img class="mr-3" src={this.state.vaccinationHistImage}/>
+                          </div>
+                      </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onVacinationHistUpload}><i className="fa fa-upload"></i> Vacination History</Button>
                     </Col>
@@ -496,10 +460,15 @@ class CertificationForm extends Component {
                     <Col md="3">
                       <Label htmlFor="references-input">References</Label>
                     </Col>
-                    <Col xs="12" md="6">
+                    <Col xs="12" md="4">
                       <Input type="file" id="references-input" name="references-input"
                        onChange={this.onReferenceSelectedHandler}/>
                     </Col>
+                    <Col xs="12" md="2">
+                          <div class="media">
+                           <img class="mr-3" src={this.state.references} />
+                          </div>
+                      </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onReferenceUpload}><i className="fa fa-upload"></i> References</Button>
                     </Col>
@@ -512,28 +481,6 @@ class CertificationForm extends Component {
                 <Button type="reset" size="sm" color="danger" onClick={this.onResetCertificateInfo}><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
-            <Card>
-              <CardHeader>
-                <strong>Inline</strong> Form
-              </CardHeader>
-              <CardBody>
-                <Form action="" method="post" inline>
-                  <FormGroup className="pr-1">
-                    <Label htmlFor="exampleInputName2" className="pr-1">Name</Label>
-                    <Input type="text" id="exampleInputName2" placeholder="Jane Doe" required />
-                  </FormGroup>
-                  <FormGroup className="pr-1">
-                    <Label htmlFor="exampleInputEmail2" className="pr-1">Email</Label>
-                    <Input type="email" id="exampleInputEmail2" placeholder="jane.doe@example.com" required />
-                  </FormGroup>
-                </Form>
-              </CardBody>
-              <CardFooter>
-                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
-              </CardFooter>
-            </Card>          
       </div>
     );
   }

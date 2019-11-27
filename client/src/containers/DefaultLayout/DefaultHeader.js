@@ -44,7 +44,7 @@ class DefaultHeader extends Component {
     // console.log(obj.token);
     if( obj && obj.token) {
       console.log(obj.token);
-      const { token, userId } = obj;
+      const { token } = obj;
       // Verify token 
       fetch('http://localhost:8080/endpoint/account/verify?token=' + token)
       .then(res => res.json())
@@ -132,10 +132,7 @@ class DefaultHeader extends Component {
             <Link to="/dashboard" className="nav-link" >Dashboard</Link>
           </NavItem>
           <NavItem className="px-3">
-            <Link to="/Login">Login</Link>
-          </NavItem>
-          <NavItem className="px-3">
-            <Link to="/userprofile" >User Profile</Link>
+            <Link to="/AMcalenderView" >AM Calendar</Link>
           </NavItem>
           {/* <NavItem className="px-3">
             <Link to="/users">Users</Link>
