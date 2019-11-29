@@ -22,8 +22,8 @@ const userSchema = new Schema({
     resetPasswordToken: {
         type: String,
     },
-    resetPasswordExpires: {
-        type: Date,
+    resetPasswordExpiry: {
+        type: Number,
     },
     forcePasswordReset: {
         type: Boolean,

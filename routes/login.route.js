@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const nodemailer = require('nodemailer');
 
+// Needed to access the .env file
+require('dotenv').config();
+
 // Express route
 const loginExpressRoute  = express.Router();
 
@@ -53,7 +56,7 @@ loginExpressRoute.route('/account/signup').post((request, response, next) =>{
     newUser.firstName = firstName;
     newUser.lastName = lastName;
     newUser.password = newUser.generateHash(password);
-    console.log('befire save')
+    console.log('before save')
     newUser.save(function(error, user){
         if (error) {
             return response.send({
@@ -98,8 +101,7 @@ loginExpressRoute.route('/account/login').post((request, response, next) =>{
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
-            console.log(users)
+        } else if (userList.length < 0 || userList.length ==0 ||userList.length >1)  {
             return response.send({
                 success: false,
                 message:'Error: Invalid'
@@ -107,12 +109,64 @@ loginExpressRoute.route('/account/login').post((request, response, next) =>{
         }
 
     const user = userList[0];
-    if (!user.validPassword(password)) {
-        return response.send({
-            success: false,
-            message:'Error: Invalid'
-        });
-    }
+    const dateNow = Date.now();
+    // console.log(new Date(dateNow));
+    // console.log(new Date(user.resetPasswordExpiry))
+    if(user.forcePasswordReset == true){
+        if(user.resetPasswordToken === password && dateNow < user.resetPasswordExpiry){
+            const updateUserInfo = new UserSchema();
+            updateUserInfo._id = user._id;
+            updateUserInfo.forcePasswordReset = false;
+
+            UserSchema.findOneAndUpdate({'_id': user._id}, updateUserInfo, {upsert:true}, function(error, doc){
+    
+                if (error) {
+                    console.error(error);
+                    return response.send({
+                        forcePasswordReset: true,
+                        error: error,
+                    });
+                } else {
+                    console.log(updateUserInfo);
+                    const userSession = new UserSessionSchema();
+                    userSession.userId = user._id;
+                    userSession.save((error, session) => {
+                    if (error) {
+                        return response.send({
+                            success: false,
+                            message: 'Error: server error',
+                        });
+                    }
+                    // FIXME remove 
+                    //  console.log('User id:'+user._id);
+                    // console.log('Session id: '+ session._id);
+
+                    return response.send({
+                        success: true,
+                        message: 'Valid sign in',
+                        // token is linked to the user id
+                        token: session._id,
+                        userId: user._id,
+                        forcePasswordReset: true,
+                    });
+                })
+                }    
+            })
+           
+        } else {
+            return response.send({
+                forcePasswordReset: true,
+                resetActive: true,
+            });  
+        }
+
+    } else {
+        if (!user.validPassword(password)) {
+            return response.send({
+                success: false,
+                message:'Error: Invalid'
+            });
+        }
         // correct USer
         const userSession = new UserSessionSchema();
         userSession.userId = user._id;
@@ -136,6 +190,7 @@ loginExpressRoute.route('/account/login').post((request, response, next) =>{
 
             });
         })
+     }
     })
 });
 
@@ -397,34 +452,24 @@ loginExpressRoute.route('/account/forgot-password').post((request, response, nex
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
-            console.log(users)
+        } else if (userList.length < 0 || userList.length === 0 || userList.length >1)  {
             return response.send({
                 success: false,
-                message:'Error: Invalid'
+                message:'Error: un'
             });
         }
 
     const user = userList[0];
-    // if (!user.generateRandPassword(password)) {
-    //     return response.send({
-    //         success: false,
-    //         message:'Error: Invalid'
-    //     });
-    // }   
 
     const updatedUser = new UserSchema();
 
-
-    // const randomString = Math.random().toString();
     const dateStr = Date.now().toString()
     const updatedToken = updatedUser.generateRandPassword(dateStr);
-    console.warn('The random seed used to create reset pwd' + dateStr)
-    console.warn('The updated pwd' + updatedToken)
-    
+    const tokenPasswordExpiry = Date.now() + 3600000;
+
     updatedUser._id = user._id;
     updatedUser.resetPasswordToken = updatedToken;
-    updatedUser.resetPasswordExpiry = Date.now() + 360000;
+    updatedUser.resetPasswordExpiry = tokenPasswordExpiry;
     updatedUser.forcePasswordReset =  true;
 
     // updates the user password
@@ -437,12 +482,10 @@ loginExpressRoute.route('/account/forgot-password').post((request, response, nex
                 msg: "Error: updating the new user password"
             });
         } else {
-            
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-        //   user: `${process.env.EMAIL_ADDRESS}`,
-        //   pass: `${process.env.EMAIL_PASSWORD}`,
           user: `${process.env.EMAIL_ADDRESS}`,
           pass: `${process.env.EMAIL_PASSWORD}`,
         },
@@ -456,7 +499,7 @@ loginExpressRoute.route('/account/forgot-password').post((request, response, nex
           'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
           + 'Please use the temporary password to login within one hour of receiving it:\n\n'
           + `${updatedToken}\n\n`
-          + 'Sfter logging in you will be prompted to change your password.\n',
+          + 'Take care when copying the password. After logging in you will be prompted to change your password.\n',
       };
 
       console.log('sending mail');
@@ -467,82 +510,24 @@ loginExpressRoute.route('/account/forgot-password').post((request, response, nex
             response.send({
                 success: false,
                 forcePasswordReset:false,
-                message: data
+                message: error,
             });
 
           } else {
+            console.log('email sent to: '+ user.email);
+            console.log('expiry: '+ updatedUser.resetPasswordExpiry );
             return response.send({
+                    passwordTokenExpiry: updatedUser.resetPasswordExpiry,
                     success: true,
                     forcePasswordReset:true,
+                    userId: user._id,
                 });
           }
       })
-
-//       transporter.sendMail(mailOptions, (err, response) => {
-//         if (err) {
-//           console.error('there was an error: ', err);
-//         } else {
-//           console.log('here is the res: ', response);
-//           res.status(200).json('recovery email sent');
-//         }
-
-            // response.status(200).json({
-            //     success: true,
-            //     forcePasswordReset:true,
-            // })
         }    
     })
  });
 });
-
-// UserSchema.findOne({
-//     where: {
-//     email: email,
-//     },
-// }).then((user) => {
-//     if (user === null) {
-//       console.error('email not in database');
-//       res.status(403).send('email not in db');
-//     } else {
-//       const token = updatedUser.generateRandPassword(Math.random().toString());
-//       console.log('Updated token'+token);
-//       user.update({
-//         resetPasswordToken: token,
-//         resetPasswordExpires: Date.now() + 360000,
-//       });
-
-//       const transporter = nodemailer.createTransport({
-//         service: 'gmail',
-//         auth: {
-//           user: `${process.env.EMAIL_ADDRESS}`,
-//           pass: `${process.env.EMAIL_PASSWORD}`,
-//         },
-//       });
-
-//       const mailOptions = {
-//         from: 'mySqlDemoEmail@gmail.com',
-//         to: `${user.email}`,
-//         subject: 'Link To Reset Password',
-//         text:
-//           'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
-//           + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
-//           + `http://localhost:3031/reset/${token}\n\n`
-//           + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
-//       };
-
-//       console.log('sending mail');
-
-//       transporter.sendMail(mailOptions, (err, response) => {
-//         if (err) {
-//           console.error('there was an error: ', err);
-//         } else {
-//           console.log('here is the res: ', response);
-//           res.status(200).json('recovery email sent');
-//         }
-//       });
-//     }
-//   });
-// });
 
 //Verifies the session Id
 loginExpressRoute.route('/account/verify').get((request, response, next) =>{

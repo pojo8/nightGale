@@ -238,8 +238,8 @@ class ProfessionForm extends Component {
     }); 
   }
 
-  onDbsNumberChanged(dbsNumber) {
-    this.setState({ dbsNumber });
+  onDbsNumberChanged(event) {
+    this.setState({ dbsNumber: event.target.value });
   }
 
   onCvSelectedHandler = event => {

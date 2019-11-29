@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import { Alert } from 'reactstrap';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import {FiLock} from 'react-icons/fi'
-
+import ChangePasswordModal from './ChangePasswordModal/ChangePasswordModal';
 import { setInStorage } from '../../../containers/DefaultLayout/utils/Storage';
-import { runInThisContext } from 'vm';
 class Login extends Component {
   constructor() {
     super()
@@ -15,13 +14,14 @@ class Login extends Component {
       loginEmail:'',
       loginPassword:'',
       forcePasswordReset: false,
+      showModal: false,
     };
 
     this.onTextBoxChangeEmail = this.onTextBoxChangeEmail.bind(this);
     this.onTextBoxChangePassword = this.onTextBoxChangePassword.bind(this);
     this.onLogin = this.onLogin.bind(this);
     this.navigateToDashBoard = this.navigateToDashBoard.bind(this);
-    this.launchResetPasswordModal = this.launchResetPasswordModal.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
   }
 
   // on change events for the input boxes
@@ -57,7 +57,7 @@ class Login extends Component {
     }).then( response => response.json())
     .then(json => {
       console.log('login json: ', json);
-      if(json.success === true && json.forcePasswordReset != true) {
+      if(json.success === true && json.forcePasswordReset !== true) {
         // stores the toekn generated with the local storage FIXME in future
         // This will be stored in the default header item that will appear on all the pages
         setInStorage('app_ng', {token: json.token,userId: json.uid});
@@ -70,13 +70,25 @@ class Login extends Component {
           token: json.token,
         });
 
-      } else if(json.success === true && json.forcePasswordReset){
+      } else if(json.success === true && json.forcePasswordReset==true){
         this.setState({
           loginSuccess: true,
           forcePasswordReset: true,
+          showModal: true,
+          userId: json.userId,
         });
+        console.log(this.state.userId);
         console.log('user needs to reset password')
-      }else {
+        //] launch the password reset modal 
+      }else if(json.forcePasswordReset==true){
+        this.setState({
+          loginSuccess: false,
+          forcePasswordReset: true,
+        });
+        // need to look into this case
+        console.log('Not correct email')
+        //] launch the password reset modal 
+      } else {
         this.setState({
           loginSuccess: false,
           loginError: true,
@@ -86,23 +98,41 @@ class Login extends Component {
     });
   }
 
+  hideModal =() =>{
+    this.setState({showModal:false});
+  }
 
   navigateToDashBoard(){
      this.props.history.push('/'); 
   }
 
-  // maybe iport this from the new email address
-  launchResetPasswordModal(){
-
+  onDismiss() {
+    this.setState({ 
+      visible: false,
+      loginError: false,
+      loginEmail: '',
+      loginPassword: '',
+      userId: null,
+    });
   }
+
+  // maybe iport this from the new email address
+  // launchResetPasswordModal(){
+  //   this.setState({
+  //     showModal: true
+  //   })
+  // }
   
   render() {
 
     const {
       loginEmail,
-      loginPassword
+      loginPassword,
+      userId,
+
     } = this.state
 
+    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.hideModal}>&times;</button>;
 
     return (
       <div className="app flex-row align-items-center">
@@ -111,6 +141,27 @@ class Login extends Component {
             <Col md="8">
               <CardGroup>
                 <Card className="p-4">
+                {/* {
+            // this will launch a modal for forgot passowrd
+                      this.state.loginSuccess && this.state.forcePasswordReset ?
+                      this.launchResetPasswordModal(loginEmail) : this.state.loginError === false
+          } */}
+          {
+                      this.state.loginSuccess && !this.state.forcePasswordReset ?
+                      this.navigateToDashBoard() : this.state.loginError === false
+          }
+                      { this.state.loginError ?
+                      <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
+                        User with email : {this.state.loginEmail} Unsuccessful login attempt
+                      </Alert> : null
+                    }
+                    {
+                      this.state.forcePasswordReset ?
+                      <Alert color="warning" isOpen={this.state.visible} toggle={this.onDismiss}>
+                        Check the emails for: {this.state.loginEmail} or click forgotten password
+                      </Alert> : null 
+                   }
+                  <ChangePasswordModal userid={userId} external={externalCloseBtn} isOpen={this.state.showModal} />
                   <CardBody>
                     <Form>
                       <h1>Login</h1>
@@ -169,20 +220,7 @@ class Login extends Component {
               </CardGroup>
             </Col>
           </Row>
-          {
-            // this will launch a modal for forgot passowrd
-                      this.state.loginSuccess && this.state.forcePasswordReset ?
-                      this.launchResetPasswordModal(loginEmail) : this.state.loginError === false
-          }
-          {
-                      this.state.loginSuccess && !this.state.forcePasswordReset ?
-                      this.navigateToDashBoard() : this.state.loginError === false
-          }
-                      { this.state.loginError ?
-                      <Alert color="danger">
-                        User with email : {this.state.loginEmail} Unsuccessful login attempt
-                      </Alert> : null
-                    }
+          
         </Container>
       </div>
     );
