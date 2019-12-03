@@ -7,10 +7,13 @@ import {
   CardFooter,
   CardHeader,
   Col,
+  CustomInput,
   Form,
   FormGroup,
   Input,
   Label,
+  Media,
+  Progress,
 } from 'reactstrap';
 
 import {
@@ -370,7 +373,7 @@ class CertificationForm extends Component {
       <div className="animated fadeIn"> 
             <Card>
               <CardHeader>
-                <strong>Ceritifactions</strong>
+              <i className="fa fa-graduation-cap"></i><strong>Ceritifactions</strong>
               </CardHeader>
               <CardBody>
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
@@ -393,13 +396,13 @@ class CertificationForm extends Component {
                       <Label htmlFor="cv-input">Upload GMC certificate</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type="file" id="dbs-input" name="dbs-input" 
+                      <CustomInput type="file" id="dbs-input" name="dbs-input" 
                       onChange={this.onGmcSelectedHandler}/>
                     </Col>
                     <Col xs="12" md="2">
-                          <div class="media">
-                           <img class="mr-3" src={this.state.gmcImage} />
-                          </div>
+                          <Media>
+                           <Media object class="mr-3" src={this.state.gmcImage} />
+                          </Media>
                       </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onGmcUpload}><i className="fa fa-upload"></i> GMC certificate</Button>
@@ -410,13 +413,13 @@ class CertificationForm extends Component {
                       <Label htmlFor="file-input">Upload F1 signed off certifacte</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type="file" id="dbs-input" name="dbs-input" 
+                      <CustomInput type="file" id="dbs-input" name="dbs-input" 
                        onChange={this.onF1SelectedHandler}/>
                     </Col>
                     <Col xs="12" md="2">
-                          <div class="media">
-                           <img class="mr-3" src={this.state.f1CertImage} />
-                          </div>
+                          <Media>
+                            <Media object class="mr-3" src={this.state.f1CertImage} />
+                          </Media>
                       </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onF1CertUpload}><i className="fa fa-upload"></i> F1 Certificate</Button>
@@ -427,13 +430,13 @@ class CertificationForm extends Component {
                       <Label htmlFor="file-input">Upload Medical certificate</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type="file" id="dbs-input" name="dbs-input" 
+                      <CustomInput type="file" id="dbs-input" name="dbs-input" 
                       onChange={this.onMedCertSelectedHandler}/>
                     </Col>
                     <Col xs="12" md="2">
-                          <div class="media">
-                           <img class="mr-3" src={this.state.medicalCertImage}/>
-                          </div>
+                          <Media class="media">
+                           <Media object class="mr-3" src={this.state.medicalCertImage}/>
+                          </Media>
                       </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onMedCertUpload}><i className="fa fa-upload"></i> Medical certificate</Button>
@@ -444,13 +447,13 @@ class CertificationForm extends Component {
                       <Label htmlFor="file-multiple-input">Upload Vacination history</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type="file" id="dbs-input" name="dbs-input" 
+                      <CustomInput type="file" id="dbs-input" name="dbs-input" 
                       onChange={this.onVacinationHistSelectedHandler}/>
                     </Col>
                     <Col xs="12" md="2">
-                          <div class="media">
-                           <img class="mr-3" src={this.state.vaccinationHistImage}/>
-                          </div>
+                          <Media class="media">
+                           <Media object class="mr-3" src={this.state.vaccinationHistImage}/>
+                          </Media>
                       </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onVacinationHistUpload}><i className="fa fa-upload"></i> Vacination History</Button>
@@ -461,13 +464,13 @@ class CertificationForm extends Component {
                       <Label htmlFor="references-input">References</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type="file" id="references-input" name="references-input"
+                      <CustomInput type="file" id="references-input" name="references-input"
                        onChange={this.onReferenceSelectedHandler}/>
                     </Col>
                     <Col xs="12" md="2">
-                          <div class="media">
-                           <img class="mr-3" src={this.state.references} />
-                          </div>
+                          <Media class="media">
+                           <Media object class="mr-3" src={this.state.references} />
+                          </Media>
                       </Col>
                     <Col xs="12" md="3">
                       <Button color="success" onClick={this.onReferenceUpload}><i className="fa fa-upload"></i> References</Button>
@@ -479,6 +482,32 @@ class CertificationForm extends Component {
                 <Button type="submit" size="sm" color="primary" onClick={this.onSubmitCertificateInfo}><i className="fa fa-dot-circle-o"></i> Submit</Button>
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 <Button type="reset" size="sm" color="danger" onClick={this.onResetCertificateInfo}><i className="fa fa-ban"></i> Reset</Button>
+              </CardFooter>
+            </Card>
+            
+            {/* // the validation webscraper  */}
+            <Card>
+              <CardHeader>
+              <i className="fa fa-id-card"></i><strong>Validate account</strong>
+              </CardHeader>
+              <CardBody>
+                <FormGroup row>
+                  <Col >
+                    <Label htmlFor="company">Validates the account using the supplied GMC number and the user name</Label>
+                  </Col>
+                </FormGroup>
+                <Progress multi>
+                <Label htmlFor="company">Validates the account using the supplied GMC number and the user name</Label>
+                  <Progress bar color="success" value={30} />
+         
+                </Progress>
+
+
+              </CardBody>
+              <CardFooter>
+                <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
       </div>

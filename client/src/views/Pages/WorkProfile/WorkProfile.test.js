@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UserProfile from './UserProfile';
+import WorkProfile from './WorkProfile';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<UserProfile />, div);
+  ReactDOM.render(<WorkProfile />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

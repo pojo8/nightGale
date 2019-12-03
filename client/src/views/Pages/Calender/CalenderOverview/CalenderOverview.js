@@ -17,7 +17,7 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {
   getFromStorage, 
 } from '../../../../containers/DefaultLayout/utils/Storage';
-import fields from '../../UserProfile/ProfessionForm/data/Specialtyfields';
+import fields from '../../WorkProfile/ProfessionForm/data/Specialtyfields';
 
 const options = fields.UK;
 
@@ -168,10 +168,18 @@ class CalenderOverview extends Component {
             },
         }).then( response => response.json())
         .then(json => {
+          console.error(json.workProfile.specialtyFields[0].value)
           if(json.success === true) {
 
+            // Pre-processing so that only the values are in the state field
+            let fieldArray = [];
+    
+            json.workProfile.specialtyFields.forEach(function(field){
+              fieldArray.push(field.value)
+            });
+
             this.setState({
-                specialtyFields: json.workProfile.specialtyFields,
+                specialtyFields: fieldArray,
             });
 
             this.showCalender(this.state.specialtyFields)
@@ -188,6 +196,7 @@ class CalenderOverview extends Component {
   
   // Not proud of this but it is wokring ffs
   showCalender( fieldArray){
+    
         if(fieldArray.includes('AM')){
           this.setState({
             AM: true,

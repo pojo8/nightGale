@@ -6,7 +6,7 @@ import CertificationtionForm from './CertificationForm/CertificationForm';
 import CompanyForm from './CompanyForm/CompanyForm';
 
 
-class UserProfile extends Component {
+class WorkProfile extends Component {
   
   constructor(props) {
     super(props);
@@ -90,4 +90,4 @@ class UserProfile extends Component {
   }
 }
 
-export default UserProfile;
+export default WorkProfile;

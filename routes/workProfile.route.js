@@ -1,11 +1,8 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
 const mongodb = require('mongodb')
-const fs = require('fs');
 
 const binary = mongodb.Binary
 
-const app = express();
 
 // Express route
 const workProfileExpressRoute  = express.Router();
@@ -37,7 +34,7 @@ workProfileExpressRoute.route('/workProfile/location-update').post((request, res
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
+        } else if (userList.length < 0 || userList.length == 0 || userList.length >1)   {
             console.log(users)
             return response.send({
                 success: false,
@@ -103,7 +100,7 @@ workProfileExpressRoute.route('/workProfile/profession-update').post((request, r
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
+        } else if (userList.length < 0 || userList.length == 0 || userList.length >1)   {
             console.log(users)
             return response.send({
                 success: false,
@@ -170,7 +167,7 @@ workProfileExpressRoute.route('/workProfile/profession-upload-cv').post((request
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
+        } else if (userList.length < 0 || userList.length == 0 || userList.length >1)   {
             console.log(users)
             return response.send({
                 success: false,
@@ -232,7 +229,7 @@ workProfileExpressRoute.route('/workProfile/certification-update').post((request
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
+        } else if (userList.length < 0 || userList.length == 0 || userList.length >1)   {
             console.log(users)
             return response.send({
                 success: false,
@@ -292,13 +289,31 @@ workProfileExpressRoute.route('/get-workProfile/:userId').get((request, response
                 success: false,
                 messaged: 'Error: Server error'
             });
-        } else {
+        } else if(data.length == 0){
+            return response.send({
+                success: false,
+                messaged: 'Record not found'
+            });
+        }else {
             // In the event of an ok response output the message
             return response.send({
                 success: true,
                 // This is to get only first result form array of results
                 workProfile: data[0]
             });        
+        }
+    })
+})
+
+workProfileExpressRoute.route('/workProfile/delete/:id').delete((request , response, next) => {    
+    CardInfoSchema.findByIdAndRemove(request.params.id, (error, data) => {
+        if (error) {
+            return next(error);
+        } else {
+            // In the event of an ok response output the message
+            response.status(200).json({
+                deletedWorkProfile: data
+            })
         }
     })
 })

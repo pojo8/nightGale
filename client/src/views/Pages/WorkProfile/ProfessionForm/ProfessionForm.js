@@ -8,6 +8,7 @@ import {
   CardFooter,
   CardHeader,
   Col,
+  CustomInput,
   Form,
   FormGroup,
   FormText,
@@ -16,11 +17,12 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
+  Media,
 } from 'reactstrap';
 
 import fields from './data/Specialtyfields';
 import Select from 'react-select';
-import 'react-select/dist/react-select.min.css';
+// import 'react-select/dist/react-select.min.css';
 
 import {
   getFromStorage, 
@@ -50,6 +52,8 @@ class ProfessionForm extends Component {
     this.state ={
       userId: '',
       specialtyFields: [],
+      // specialtyFields: '',
+
       dbsImage: '',
       dbsImageFile: '',
       dbsNumber:'',
@@ -89,6 +93,7 @@ class ProfessionForm extends Component {
         },
     }).then( response => response.json())
     .then(json => {
+      console.error(json)
       if(json.success === true) {
 
         this.setState({
@@ -181,10 +186,44 @@ class ProfessionForm extends Component {
 
     });  }
 
-  saveChanges(selectedOption) {
-    var newArray = this.state.specialtyFields.slice(0,);
-    newArray.push(selectedOption[selectedOption.length -1].value);
-    this.setState({ specialtyFields: newArray });
+  //   saveChanges(selectedOption) {
+
+  //     console.log(selectedOption)
+  //     // console.log('The Action: '+action)
+  //     // console.log('the removed value: '+ removedValue)
+    
+  //     var newArray = this.state.specialtyFields.slice(0,);
+  //     newArray.push(selectedOption[selectedOption.length -1].value);
+  //     this.setState({ specialtyFields: newArray });
+  // }
+  saveChanges = (selectedOption, {action}) => {
+
+    //   console.log('The Action: '+action)
+    //   // console.log('the removed value: '+ removedValue)
+    //   console.log(selectedOption, action);
+    // switch (action) {
+    //   case 'input-change':
+    //     this.setState({ specialtyFields: selectedOption });
+    //     return;
+    //   case 'menu-close':
+    //     console.log(this.state.specialtyFields);
+    //     let menuIsOpen = undefined;
+    //     if (this.state.specialtyFields) {
+    //       menuIsOpen = true;
+    //     }
+    //     this.setState({
+    //       menuIsOpen
+    //     });
+    //     return;
+    //   default:
+    //     return;
+    this.setState({ specialtyFields: selectedOption });
+
+    
+    
+      // var newArray = this.state.specialtyFields.slice(0,);
+      // newArray.push(selectedOption[selectedOption.length -1].value);
+      // this.setState({ specialtyFields: newArray });
   }
   
   onDbsSelectedHandler = event => {
@@ -341,7 +380,7 @@ class ProfessionForm extends Component {
  
             <Card>
               <CardHeader>
-              <i className="icon-briefcase"/><strong>Profession information</strong>
+              <i className="fa fa-briefcase"/><strong>Profession information</strong>
               </CardHeader>
               <CardBody>
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
@@ -418,10 +457,15 @@ class ProfessionForm extends Component {
 
                     <Select
                       name="specialtyFields"
+                      autoFocus
                       value={specialtyFields}
+                      // inputValue={specialtyFields}
+                      isClearable
+                      isSearchable
+                      isMulti
                       options={options}
                       onChange={this.saveChanges}
-                      multi
+                      
                     />
                   </Col>
                   </FormGroup>
@@ -436,14 +480,14 @@ class ProfessionForm extends Component {
                       <Label htmlFor="file-input">Cv</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type="file" id="cvImage" name="cvImage" 
+                      <CustomInput type="file" id="cvImage" name="cvImage" 
                        onChange={this.onCvSelectedHandler}  />
                       </Col>
                       <Col xs="12" md="2">
     
-                        <div class="media">
-                           <img class="mr-3" src={this.state.cvImage} />
-                      </div>
+                        <Media>
+                           <Media object class="mr-3" src={this.state.cvImage} />
+                      </Media>
                     </Col>
                       <Col xs="12" md="3">
                       <Button color="success" onClick={this.onCvUpload}><i className="fa fa-upload"></i> Upload Cv</Button>
@@ -463,13 +507,18 @@ class ProfessionForm extends Component {
                       <Label htmlFor="file-input"> DBS Certificate</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type="file" id="dbsImage-input" name="dbsImage-input" toolText="upload image files to see thumbnail"
+                    {/* <Input type="file" id="dbsImage-input" name="dbsImage-input" toolText="upload image files to see thumbnail"
+                        onChange={this.onDbsSelectedHandler}/> */}
+                      <CustomInput type="file" id="dbsImage-input" name="dbsImage-input" toolText="upload image files to see thumbnail"
                         onChange={this.onDbsSelectedHandler}/>
                         </Col>
                         <Col xs="12" md="2">
-                          <div class="media">
+                          {/* <div class="media">
                            <img class="mr-3" src={this.state.dbsImage} />
-                          </div>
+                          </div> */}
+                          <Media>
+                           <Media object class="mr-3" src={this.state.dbsImage} />
+                          </Media>
                       </Col>
                       <Col xs="12" md="3">
                       <Button color="success" onClick={this.onDbsUpload}><i className="fa fa-upload"></i> Upload Dbs</Button>

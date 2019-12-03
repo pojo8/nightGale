@@ -6,11 +6,12 @@ import DefaultLayout from './containers/DefaultLayout/DefaultLayout';
 // Defin page routes here and in the const path for them to appear inside default
 const Dashboard = React.lazy(() => import('./views/Dashboard/Dashboard'));
 // rename this below
-const UserProfile = React.lazy(() => import('./views/Pages/UserProfile/UserProfile'));
+const WorkProfile = React.lazy(() => import('./views/Pages/WorkProfile/WorkProfile'));
 const Login = React.lazy(()=> import('./views/Pages/Login/Login'));
 const CalenderOverview = React.lazy(()=> import('./views/Pages/Calender/CalenderOverview/CalenderOverview'));
 const CalenderView = React.lazy(()=> import('./views/Pages/Calender/CalenderView/CalendarView'));
 const UserAccount = React.lazy(()=> import('./views/Pages/UserAccount/UserAccount'))
+const PaymentInformation = React.lazy(()=> import('./views/Pages/PaymentInformation/PaymentInformaton'))
 
 // Personal Calendar views
 const AECalendar = React.lazy(()=> import('./views/Pages/Calender/PersonalCalendars/AECalenderView/AECalendarView'));
@@ -30,8 +31,11 @@ const routes = [
     { path: '/', name: 'Home', component: DefaultLayout, exact: true },
     { path: '/login', exact: true,  name: 'Login Page', component: Login },
     { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-    { path: '/userprofile', name: 'User Profile', component: UserProfile,  exact: true},
+    { path: '/workprofile', name: 'Work Profile', component: WorkProfile,  exact: true},
     { path: '/useraccount', name: 'User Account', component: UserAccount,  exact: true},
+    { path: '/paymentinformation', name: 'Payment Information', component: PaymentInformation,  exact: true},
+
+
 
     { path: '/calenderOverview', name: 'Calendar Overview', component: CalenderOverview,  exact: true},
     { path: '/calenderView', name: 'Calendar View', component: CalenderView,  exact: true},

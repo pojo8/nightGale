@@ -36,8 +36,9 @@ app.use(cors());
 const contractorRoute = require('./routes/contractor.route')
 const loginRoute = require('./routes/login.route')
 const workProfileRoute = require('./routes/workProfile.route')
+const cardInfoRoute = require('./routes/cardInfo.route')
 
-app.use('/endpoint', [contractorRoute, loginRoute, workProfileRoute])
+app.use('/endpoint', [cardInfoRoute, contractorRoute, loginRoute, workProfileRoute])
 
 
 // Create port

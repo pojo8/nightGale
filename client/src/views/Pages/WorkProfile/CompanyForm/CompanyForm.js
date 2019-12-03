@@ -35,21 +35,20 @@ class CompanyForm extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-          <Col xs="12" sm="6">
             <Card>
               <CardHeader>
-                <strong>Private Company Information</strong>
+              <i className="fa fa-building"></i><strong>Private Company Information</strong>
               </CardHeader>
               <CardBody>
-                <FormGroup>
+                <FormGroup row>
                   <Label htmlFor="company">Company</Label>
                   <Input type="text" id="company" placeholder="Enter your company name" />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup row>
                   <Label htmlFor="vat">VAT</Label>
                   <Input type="text" id="vat" placeholder="DE1234567890" />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup row>
                   <Label htmlFor="street">Street</Label>
                   <Input type="text" id="street" placeholder="Enter street name" />
                 </FormGroup>
@@ -67,7 +66,7 @@ class CompanyForm extends Component {
                     </FormGroup>
                   </Col>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup row>
                   <Label htmlFor="country">Country</Label>
                   <Input type="text" id="country" placeholder="Country name" />
                 </FormGroup>
@@ -77,7 +76,6 @@ class CompanyForm extends Component {
                 <Button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</Button>
               </CardFooter>
             </Card>
-          </Col>
        
       </div>
     );

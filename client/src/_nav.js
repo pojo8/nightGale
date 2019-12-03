@@ -19,7 +19,7 @@ export default {
         {
           name: 'Region search',
       url: '/theme/typography',
-      icon: 'cui-location-pin',
+      icon: 'fa fa-street-view',
         },
       
     ]}
@@ -41,17 +41,22 @@ export default {
           name: 'User account',
           url: '/useraccount',
           icon: 'icon-user',
+        },
+        {
+          name: 'Payment infromation',
+          url: '/paymentinformation',
+          icon: "fa fa-bank",
         },]
     },
     {
       name: 'Work profile',
-      url: '/userProfile',
-      icon: 'cui-briefcase',
+      url: '/workprofile',
+      icon: 'fa fa-hospital-o',
       children: [
         {
-          name: 'user profile',
-          url: '/userprofile',
-          icon: 'icon-graduation',
+          name: 'Work specification',
+          url: '/workprofile',
+          icon: 'fa fa-user-md',
         },]
     },
     {

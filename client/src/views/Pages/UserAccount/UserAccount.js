@@ -287,7 +287,7 @@ class UserAccount extends Component {
 
                 <InputGroupAddon addonType="prepend">
                         <InputGroupText> 
-                        <i className="cui-speedometer"></i>        
+                        <i className="fa fa-money"></i>        
                         </InputGroupText>
                       </InputGroupAddon>
                   <Input type="text" id="hourlyRate" 

@@ -206,7 +206,7 @@ class LocationForm extends Component {
       <div className="animated fadeIn">
             <Card>
               <CardHeader>
-              <i className="icon-location-pin"></i><strong>Current Address</strong>{' '}
+              <i className="fa fa-map-pin"></i><strong>Current Address</strong>{' '}
               </CardHeader>
               <CardBody>
               { this.state.uploadSuccess ?

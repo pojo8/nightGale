@@ -31,7 +31,7 @@ const workProfileSchema = new Schema({
         type: String,
     },
     specialtyFields: [{
-        type: String,
+        type: Object,
     }],
     address: {
         type: String,

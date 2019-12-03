@@ -244,7 +244,7 @@ loginExpressRoute.route('/account/user-update').post((request, response, next) =
                     success: false,
                     message:'Error: Server error'
                 });
-            } else if (userList.length < 0 || userList.length >1)  {
+            } else if (userList.length < 0 || userList.length == 0 || userList.length >1)   {
                 console.log(users)
                 return response.send({
                     success: false,
@@ -329,7 +329,7 @@ loginExpressRoute.route('/account/changePassword').post((request, response, next
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
+        } else if (userList.length < 0 || userList.length == 0 || userList.length >1)   {
             console.log(users)
             return response.send({
                 success: false,
@@ -391,7 +391,7 @@ loginExpressRoute.route('/account/change-password').post((request, response, nex
                 success: false,
                 message:'Error: Server error'
             });
-        } else if (userList.length < 0 || userList.length >1)  {
+        } else if (userList.length < 0 || userList.length == 0 || userList.length >1)   {
             console.log(users)
             return response.send({
                 success: false,
