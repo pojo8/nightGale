@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { Alert, Button, Col, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText,Label, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 
-import {
-  getFromStorage, 
-} from '../../../../containers/DefaultLayout/utils/Storage';
+// import {
+//   getFromStorage, 
+// } from '../../../../containers/DefaultLayout/utils/Storage';
 
 
 class ChangePasswordModal extends Component {

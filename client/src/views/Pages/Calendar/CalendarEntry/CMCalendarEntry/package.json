@@ -1,0 +1,6 @@
+{
+  "name": "CMCalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CMCalendarEntry.js"
+}

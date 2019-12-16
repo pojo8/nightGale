@@ -37,9 +37,9 @@ const contractorRoute = require('./routes/contractor.route')
 const loginRoute = require('./routes/login.route')
 const workProfileRoute = require('./routes/workProfile.route')
 const cardInfoRoute = require('./routes/cardInfo.route')
+const calendarEventRoute = require('./routes/calendarEvent.route')
 
-app.use('/endpoint', [cardInfoRoute, contractorRoute, loginRoute, workProfileRoute])
-
+app.use('/endpoint', [calendarEventRoute, cardInfoRoute, contractorRoute, loginRoute, workProfileRoute])
 
 // Create port
 const port = process.env.PORT || 8080;

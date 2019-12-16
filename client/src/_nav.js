@@ -103,31 +103,62 @@ export default {
     
     {
       title: true,
-      name: 'Time mangement',
+      name: 'Time Entry (Admin)',
     },
     {
-      name: 'Calender',
-      url: '/calenderOverview',
+      name: 'Calendar Entry',
+      url: '/calendarEntryOverview',
       icon: 'icon-calendar',
       children: [
         {
-          name: 'Calender Overview',
-          url: '/calenderOverview',
+          name: 'Calendar Entry Overview',
+          url: '/calendarEntryOverview',
           icon: 'icon-pie-chart',
         },
         {
-          name: 'Calender View',
-          url: '/calenderView',
+          name: 'Calendar View',
+          url: '/calendarView',
           icon: 'icon-calendar',
         },
         {
-          name: 'Weekly calender',
-          url: '/calenderWeekView',
+          name: 'Weekly calendar',
+          url: '/calendarWeekView',
           icon: 'icon-calendar'
         },
         {
           name: 'Monthly calender',
-          url: '/calenderMonthView',
+          url: '/calendarMonthView',
+          icon: 'icon-calendar'
+        },
+      ]
+    },
+    {
+      title: true,
+      name: 'Time Management',
+    },
+    {
+      name: 'Calendar View',
+      url: '/calendarViewOverview',
+      icon: 'icon-calendar',
+      children: [
+        {
+          name: 'Calendar View Overview',
+          url: '/calendarViewOverview',
+          icon: 'icon-pie-chart',
+        },
+        {
+          name: 'Calendar View',
+          url: '/calendarView',
+          icon: 'icon-calendar',
+        },
+        {
+          name: 'Weekly calendar',
+          url: '/calendarWeekView',
+          icon: 'icon-calendar'
+        },
+        {
+          name: 'Monthly calendar',
+          url: '/calendarMonthView',
           icon: 'icon-calendar'
         },
       ]

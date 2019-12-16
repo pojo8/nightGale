@@ -1,0 +1,6 @@
+{
+  "name": "CCCalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CCCalendarEntry.js"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "CRCalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CRCalendarEntry.js"
+}

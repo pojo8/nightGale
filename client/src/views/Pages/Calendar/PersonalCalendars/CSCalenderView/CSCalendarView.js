@@ -5,10 +5,6 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
-// gmail acc for generic calendar test:
-// nightgalecalendar@gmail.com
-
-
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
 BigCalendar.setLocalizer(
@@ -115,7 +111,7 @@ const events = [
 
 // todo: reactive custom calendar toolbar component
 
-class AMCalendarView extends Component {
+class CSCalendarView extends Component {
 
   constructor(props) {
     super(props);
@@ -129,55 +125,31 @@ class AMCalendarView extends Component {
     }
   }
 
-  handleSelect = ({ start, end, }) => {
-    const title = window.prompt('Enter shifts hourly rate')
-    const eventDuration = (end - start) /3600000;
-
-    if (title)
-
-      this.setState({
-        events: [
-          ...this.state.events,
-          {
-            start,
-            end,
-            eventDuration: eventDuration,
-            hourlyRate: this.state.hourlyRate,
-            title,
-            userId: this.state.userId,
-            swapPending: false,
-            shiftEarnings: eventDuration * this.state.hourlyRate,
-          }, 
-        ],
-      })
-  }
-
   render() {
-
-    const {
-      events,
-    } =  this.state
-
 
     return (
       <div className="animated">
         <Card>
           <CardHeader>
-            <i className="icon-calendar"></i>Calendar test{' '}
+            <i className="icon-calendar"></i>Calendar{' '}
+            <a href="https://coreui.io/pro/react/" className="badge badge-danger">CoreUI Pro Component</a>
+            <div className="card-header-actions">
+              <a href="https://github.com/intljusticemission/react-big-calendar" rel="noopener noreferrer" target="_blank" className="card-header-action">
+                <small className="text-muted">docs</small>
+              </a>
+            </div>
           </CardHeader>
           <CardBody style={{ height: '40em' }}>
           <BigCalendar className="d-sm-down-none"
-                         selectable
                          {...this.props}
                          events={events}
-                         views={{week: true, day:true}}
+                         views={['month', 'week', 'day']}
                          step={30}
                          defaultDate={new Date(currYear, currMonth, 1)}
-                         defaultView='week'
+                         defaultView='month'
                          toolbar={true}
-                         onSelectSlot={this.handleSelect }
             />
-            {/* <BigCalendar className="d-md-none"
+            <BigCalendar className="d-md-none"
                          {...this.props}
                          events={events}
                          views={['day']}
@@ -185,7 +157,7 @@ class AMCalendarView extends Component {
                          defaultDate={new Date(currYear, currMonth, 1)}
                          defaultView='day'
                          toolbar={true}
-            /> */}
+            />
           </CardBody>
         </Card>
  
@@ -194,4 +166,4 @@ class AMCalendarView extends Component {
   }
 }
 
-export default AMCalendarView;
+export default CSCalendarView;

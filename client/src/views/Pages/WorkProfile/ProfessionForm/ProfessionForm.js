@@ -480,7 +480,7 @@ class ProfessionForm extends Component {
                       <Label htmlFor="file-input">Cv</Label>
                     </Col>
                     <Col xs="12" md="4">
-                      <CustomInput type="file" id="cvImage" name="cvImage" 
+                      <Input type="file" id="cvImage" name="cvImage" 
                        onChange={this.onCvSelectedHandler}  />
                       </Col>
                       <Col xs="12" md="2">
@@ -509,7 +509,7 @@ class ProfessionForm extends Component {
                     <Col xs="12" md="4">
                     {/* <Input type="file" id="dbsImage-input" name="dbsImage-input" toolText="upload image files to see thumbnail"
                         onChange={this.onDbsSelectedHandler}/> */}
-                      <CustomInput type="file" id="dbsImage-input" name="dbsImage-input" toolText="upload image files to see thumbnail"
+                      <Input type="file" id="dbsImage-input" name="dbsImage-input" toolText="upload image files to see thumbnail"
                         onChange={this.onDbsSelectedHandler}/>
                         </Col>
                         <Col xs="12" md="2">

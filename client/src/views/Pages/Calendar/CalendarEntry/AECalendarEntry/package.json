@@ -1,0 +1,6 @@
+{
+  "name": "AECalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AECalendarEntry.js"
+}

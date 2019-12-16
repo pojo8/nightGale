@@ -1,0 +1,6 @@
+{
+  "name": "EMCalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EMCalendarEntry.js"
+}

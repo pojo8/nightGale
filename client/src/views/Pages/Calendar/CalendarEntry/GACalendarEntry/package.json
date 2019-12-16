@@ -1,0 +1,6 @@
+{
+  "name": "GACalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./GACalendarEntry.js"
+}

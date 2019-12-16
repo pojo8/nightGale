@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import { Alert } from 'reactstrap';
-import { Button, Card, CardHeader, CardBody, CardFooter, Col, Container, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText,Label,  Row } from 'reactstrap';
+import { 
+  Button,
+  Card,
+  CardHeader,
+  CardBody, 
+  CardFooter, 
+  Col, 
+  FormGroup, 
+  Input, 
+  InputGroup, 
+  InputGroupAddon, 
+  InputGroupText,
+  Label } from 'reactstrap';
 import {
   getFromStorage, 
 } from '../../../containers/DefaultLayout/utils/Storage';
 import ChangePasswordModal from './ChangePasswordModal/ChangePasswordModal';
-import { throws } from 'assert';
 
 
 class UserAccount extends Component {

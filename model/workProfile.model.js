@@ -16,7 +16,7 @@ const workProfileSchema = new Schema({
         type: String,
     },
     dob: {
-        type: Date,
+        type: String,
     },
     workHistory: {
         type: String,

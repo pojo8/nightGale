@@ -1,0 +1,6 @@
+{
+  "name": "DMCalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DMCalendarEntry.js"
+}

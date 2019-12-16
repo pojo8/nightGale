@@ -132,7 +132,10 @@ class DefaultHeader extends Component {
             <Link to="/dashboard" className="nav-link" >Dashboard</Link>
           </NavItem>
           <NavItem className="px-3">
-            <Link to="/AMcalenderView" >AM Calendar</Link>
+            <Link to="/AMcalendarEntry" >AM Entry</Link>
+          </NavItem>
+          <NavItem className="px-3">
+            <Link to="/AMcalendarView" >AM View</Link>
           </NavItem>
           {/* <NavItem className="px-3">
             <Link to="/users">Users</Link>

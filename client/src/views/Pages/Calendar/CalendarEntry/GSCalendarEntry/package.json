@@ -1,0 +1,6 @@
+{
+  "name": "GSCalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./GSCalendarEntry.js"
+}

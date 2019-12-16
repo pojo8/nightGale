@@ -1,0 +1,6 @@
+{
+  "name": "COCalendarEntry",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./COCalendarEntry.js"
+}

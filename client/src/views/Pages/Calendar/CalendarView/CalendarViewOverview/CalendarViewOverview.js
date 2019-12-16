@@ -16,8 +16,8 @@ import {
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {
   getFromStorage, 
-} from '../../../../containers/DefaultLayout/utils/Storage';
-import fields from '../../WorkProfile/ProfessionForm/data/Specialtyfields';
+} from '../../../../../containers/DefaultLayout/utils/Storage';
+import fields from '../../../WorkProfile/ProfessionForm/data/Specialtyfields';
 
 const options = fields.UK;
 
@@ -95,7 +95,7 @@ for (var i = 0; i <= elements; i++) {
   data3.push(65);
 }
 
-class CalenderOverview extends Component {
+class CalendarViewOverview extends Component {
   constructor(props) {
     super(props);
 
@@ -429,7 +429,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/AEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/AEcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
 
@@ -455,7 +455,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/CScalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/CScalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -480,7 +480,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/CMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/CMcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -505,7 +505,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/CRcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/CRcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -530,7 +530,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/COcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/COcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -555,7 +555,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/CMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/CMcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -580,7 +580,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/CCcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/CCcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -605,7 +605,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/DMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/DMcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -630,7 +630,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/EMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/EMcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -655,7 +655,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/GAcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/GAcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -680,7 +680,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/GPcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/GPcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -705,7 +705,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/GScalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/GScalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -730,7 +730,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/IDcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/IDcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -755,7 +755,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/OGcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/OGcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -780,7 +780,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/OCcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/OCcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -805,7 +805,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/OPcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/OPcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -830,7 +830,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/OMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/OMcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -855,7 +855,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/OTcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/OTcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -880,7 +880,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PCcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PCcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -905,7 +905,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/NEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/NEcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -930,7 +930,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/NUcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/NUcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -955,7 +955,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PAcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PAcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -980,7 +980,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PPcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PPcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1005,7 +1005,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PEcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1030,7 +1030,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PNcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PNcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1055,7 +1055,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PGcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PGcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1080,7 +1080,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PIcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PIcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1105,7 +1105,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PZcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PZcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1130,7 +1130,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PHcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PHcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1155,7 +1155,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PDcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PDcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1180,7 +1180,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PUcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PUcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1205,7 +1205,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/POcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/POcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1230,7 +1230,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PRcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PRcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1255,7 +1255,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PMcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PMcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1280,7 +1280,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PScalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PScalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1305,7 +1305,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PAcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PAcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1330,7 +1330,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PLcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PLcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1355,7 +1355,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/CHcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/CHcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1381,7 +1381,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/PBcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/PBcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1406,7 +1406,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/SEcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/SEcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1431,7 +1431,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/TOcalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/TOcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1456,7 +1456,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem Link to="/URcalenderView">View Calender</DropdownItem>
+                      <DropdownItem Link to="/URcalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1481,7 +1481,7 @@ class CalenderOverview extends Component {
                       <i className="icon-settings"></i>
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag ={Link} to="/VScalenderView">View Calender</DropdownItem>
+                      <DropdownItem tag ={Link} to="/VScalenderEntry">View Calender</DropdownItem>
                       <DropdownItem>Generate invoice</DropdownItem>
                       <DropdownItem>Search for shifts</DropdownItem>
                     </DropdownMenu>
@@ -1501,4 +1501,4 @@ class CalenderOverview extends Component {
   }
 }
 
-export default CalenderOverview;
+export default CalendarViewOverview;

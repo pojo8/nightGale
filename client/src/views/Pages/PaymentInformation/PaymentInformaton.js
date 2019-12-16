@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Badge,
   Button,
-  ButtonDropdown,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Col,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Fade,
-  Form,
   FormGroup,
   FormText,
-  FormFeedback,
   Input,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   Label,
-  Row,
 } from 'reactstrap';
 import { TextMask, InputAdapter } from 'react-text-mask-hoc';
 import {
