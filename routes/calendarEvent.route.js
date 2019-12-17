@@ -16,14 +16,17 @@ calendarEventExpressRoute.route('/calendarEvent/update').post((request, response
       eventId,
       start,
       end,
+      userBooked,
       eventDuration,
       shiftEarnings,
       hourlyRate,
       title,
       synced,
       booked,
+      approvedBy,
       createdById,
       swapPending,
+      swapRequestBy,
       open,
       field,
     } = body;
@@ -55,16 +58,19 @@ calendarEventExpressRoute.route('/calendarEvent/update').post((request, response
     newCalendarEvent.end = end;
     newCalendarEvent.hourlyRate = hourlyRate;
     newCalendarEvent.eventDuration = eventDuration;
+    newCalendarEvent.userBooked = userBooked;
     newCalendarEvent.shiftEarnings = shiftEarnings;
     newCalendarEvent.title = title;
     newCalendarEvent.booked = booked;
     newCalendarEvent.synced = synced;
+    newCalendarEvent.approvedBy = approvedBy;
+    newCalendarEvent.swapRequestBy = swapRequestBy;
     newCalendarEvent.createdById = createdById;
     newCalendarEvent.swapPending = swapPending;
     newCalendarEvent.open = open;
     newCalendarEvent.field = field;
 
-    // CalendarEventSchema.findOneAndUpdate({'_id': eventId}, newCalendarEvent, function(error, doc){
+   // CalendarEventSchema.findOneAndUpdate({'_id': eventId}, newCalendarEvent, function(error, doc){
 
     CalendarEventSchema.findOneAndUpdate({'_id': eventId}, newCalendarEvent, {upsert:true}, function(error, doc){
 
@@ -72,7 +78,7 @@ calendarEventExpressRoute.route('/calendarEvent/update').post((request, response
             console.error(error);
             return response.send({
                 success: false,
-                msg: "Error: work proifile location infor not updated"
+                msg: "Error: Calender event not updated"
             });
         } else {
             response.status(200).json({
@@ -91,6 +97,7 @@ calendarEventExpressRoute.route('/calendarEvent/delete/:eventId').delete((reques
         } else {
             // In the event of an ok response output the message
             response.status(200).json({
+                success:true,
                 deletedCardInfo: data
             })
         }
@@ -126,6 +133,33 @@ calendarEventExpressRoute.route('/get-calendarEvent/:eventId').get((request, res
 
 // return calendarEvent 
 calendarEventExpressRoute.route('/AM-calendarEvents').get((request, response) => {
+    // request.params.{value id the params field} is where valeus are stored
+    CalendarEventSchema.find({
+        field: 'AM'
+    }, (error, data) => {
+        if (error) {
+            return response.send({
+                success: false,
+                messaged: 'Error: Server error'
+            });
+        } else if(data.length == 0){
+            return response.send({
+                success: false,
+                messaged: 'Record not found'
+            });
+        }else {
+            // In the event of an ok response output the message
+            return response.send({
+                success: true,
+                // This is to get only first result form array of results
+                calendarEvent: data
+            });        
+        }
+    })
+})
+
+// return calendarEvent 
+calendarEventExpressRoute.route('/view-AM-events').get((request, response) => {
     // request.params.{value id the params field} is where valeus are stored
     CalendarEventSchema.find({
         field: 'AM'

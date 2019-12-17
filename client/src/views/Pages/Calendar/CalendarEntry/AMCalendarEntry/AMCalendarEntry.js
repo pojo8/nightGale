@@ -3,6 +3,9 @@ import { Alert, Button, ButtonToggle, Card, CardBody, CardHeader, Col } from 're
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import {
+  getFromStorage, 
+} from '../../../../../containers/DefaultLayout/utils/Storage';
 
 var mongoose = require('mongoose');
 
@@ -39,6 +42,7 @@ class AMCalendarEntry extends Component {
       hourlyRate:'',
       uploadSuccess: null,
       removeEvent: false,
+      approveSwap: false,
       visible: true,
       
     }
@@ -57,6 +61,13 @@ class AMCalendarEntry extends Component {
   }
 
   componentDidMount(){
+    const obj = getFromStorage('app_ng');
+
+    if( obj && obj.token) {
+          this.setState({
+            userId: obj.userId,
+          });
+        }
 
       fetch('http://localhost:8080/endpoint/AM-calendarEvents', {
         method: 'GET',
@@ -70,25 +81,15 @@ class AMCalendarEntry extends Component {
 
         let eventList = json.calendarEvent;
 
-        // console.log(eventList[0])
-
         for( let i = 0; i< eventList.length; i++){
-
           eventList[i].start = moment.utc(eventList[i].start).toDate();
           eventList[i].end = moment.utc(eventList[i].end).toDate();
-
-          // console.log( eventList[i])
         }
-
         this.setState({
                   events: eventList
                 })        
-
-        
         console.log('Calendar event synced')
-
       } else {
-       
         console.log('No existing workprofile found ')
       }
     });
@@ -112,8 +113,13 @@ class AMCalendarEntry extends Component {
             hourlyRate: hourlyRate,
             title: `${eventDuration} hr shift @ £${hourlyRate}`,
             booked:false,
-            userBooked: this.state.userId,
-            createdById: 'test',
+            // user booked is null at this stage
+            userBooked: '',
+            // userBooked: this.state.userId,
+            swapRequestBy: '',
+            approvedBy: '',
+            userBooked:'',
+            createdById: this.state.userId,
             synced: false,
             swapPending: false,
             open: true,
@@ -126,8 +132,31 @@ class AMCalendarEntry extends Component {
 
   editEvent = event => {
 
+    // case of delete
     if (this.state.removeEvent == true){
-      const newHourlyRate = window.prompt('delete mode')
+      const removeEvent = window.confirm('Would you like to delete the sleceted event?')
+      this.setState({ removeEvent: false});
+      if( removeEvent){
+        
+        
+      fetch('http://localhost:8080/endpoint/calendarEvent/delete/'+event._id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+    }).then( response => response.json())
+    .then(json => {
+      console.log(json)
+      if(json.success === true) {
+
+        // Boorish but works
+        window.location.reload();  
+        console.log('Event deleted')
+      } else {
+        console.log('Error in deleting event ')
+      }
+    });
+      }
       return
     }
 
@@ -190,10 +219,14 @@ class AMCalendarEntry extends Component {
             eventDuration: event.eventDuration,
             shiftEarnings: event.shiftEarnings,
             hourlyRate: event.hourlyRate,
+
             // synced: event.synced,
             synced: true,
             title: event.title,
             booked: event.booked,
+            userBooked: event.userBooked,
+            swapRequestBy: event.swapRequestBy,
+            approvedBy: event.approvedBy,
             createdById: event.createdById,
             swapPending: event.swapPending,
             open: event.open,
@@ -240,6 +273,8 @@ class AMCalendarEntry extends Component {
             &nbsp; &nbsp; &nbsp; &nbsp;
             <ButtonToggle  type="submit" size="sm" color="danger" onClick={this.onDeleteEvent}><i className="fa fa-dot-circle-o"></i> Delete</ButtonToggle> 
              &nbsp; &nbsp; &nbsp; &nbsp;
+             <Button  type="submit" size="sm" color="success" onClick={this.onSyncCalendar}><i className="fa fa-dot-circle-o"></i> Approve</Button>
+            &nbsp; &nbsp; &nbsp; &nbsp;
             <Button  type="submit" size="sm" color="primary" onClick={this.onSyncCalendar}><i className="fa fa-dot-circle-o"></i> Sync</Button>
             </div>
           </CardHeader>
@@ -262,6 +297,35 @@ class AMCalendarEntry extends Component {
                          onSelectEvent={this.editEvent}
                          onDoubleClickEvent = {this.deleteEvent}
                         //  onSelectEvent={event => alert(event.hourlyRate)}
+
+                        eventPropGetter ={ (event) => {
+                          let newStyle = {
+                            // backgroundColor: "yellow",
+                            // color: 'black',
+                             //borderRadius: "0px",
+                          };
+                          // Need to authorise
+                          if (event.swapPending==true && event.open == true){
+                            newStyle.backgroundColor = "yellow"
+                            newStyle.color = 'black'
+                          }
+
+                          // Case of booked up and 
+                          if(event.swapPending == true && event.booked == false && event.open == false ){
+                            newStyle.backgroundColor = "darkred"
+                          }
+
+                          // Case of booked and swap not wanted 
+                          if(event.booked ==  true){
+                            newStyle.backgroundColor = "darkgreen"
+                          }
+
+                          return {
+                            className: "",
+                            style: newStyle
+                          };
+                        } 
+                      }
 
             />
             {/* <BigCalendar className="d-md-none"

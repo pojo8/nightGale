@@ -20,10 +20,11 @@ loginExpressRoute.route('/account/signup').post((request, response, next) =>{
         firstName,
         lastName,
         email,
-        password
+        password,
+        accountType,
     } = body;
 
-    if(!firstName || !lastName || !email || !password) {
+    if(!firstName || !lastName || !email || !password || !accountType) {
         return response.send({
             success: false,
             message: 'Error: Fill in all the sign up fields'
@@ -56,6 +57,8 @@ loginExpressRoute.route('/account/signup').post((request, response, next) =>{
     newUser.firstName = firstName;
     newUser.lastName = lastName;
     newUser.password = newUser.generateHash(password);
+    newUser.accountType = accountType;
+
     console.log('before save')
     newUser.save(function(error, user){
         if (error) {
@@ -147,6 +150,7 @@ loginExpressRoute.route('/account/login').post((request, response, next) =>{
                         // token is linked to the user id
                         token: session._id,
                         userId: user._id,
+                        acctype: user.accountType,
                         forcePasswordReset: true,
                     });
                 })
@@ -186,6 +190,7 @@ loginExpressRoute.route('/account/login').post((request, response, next) =>{
                 message: 'Valid sign in',
                 // token is linked to the user id
                 token: session._id,
+                acctype: user.accountType,
                 uid: user._id,
 
             });

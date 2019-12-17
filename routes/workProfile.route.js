@@ -260,7 +260,7 @@ workProfileExpressRoute.route('/workProfile/certification-update').post((request
             console.log(newCertificationInfo);
             response.status(200).json({
                 success: true,
-                certificationInfo: newCertificationInfo
+                certificationInfo: doc
             })
         }    
     })

@@ -60,8 +60,7 @@ class Login extends Component {
       if(json.success === true && json.forcePasswordReset !== true) {
         // stores the toekn generated with the local storage FIXME in future
         // This will be stored in the default header item that will appear on all the pages
-        setInStorage('app_ng', {token: json.token,userId: json.uid});
-
+        setInStorage('app_ng', {token: json.token, userId: json.uid, accountType: json.acctype});
         this.setState({
           loginSuccess: true,
           loginError: json.message,

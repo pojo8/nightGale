@@ -11,6 +11,12 @@ const calendarEventSchema = new Schema({
     eventDuration: {
         type: Number,
     },
+    swapRequestBy: {
+        type: String,
+    },
+    approvedBy:{
+        type: String
+    },
     synced: {
         type: Boolean,
         deafault: false,
@@ -27,6 +33,9 @@ const calendarEventSchema = new Schema({
     booked: {
         type: Boolean,
     },
+    userBooked: {
+        type: String,
+    },
     createdById: {
         type: String,
     },
@@ -39,6 +48,18 @@ const calendarEventSchema = new Schema({
      field: {
         type: String,
     },
+    // for adding a selection point from list
+    location:{
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: false //true
+        },
+        coordinates: {
+            type: [Number],
+            required: false // true
+        }
+    }
 }
     ,
     {

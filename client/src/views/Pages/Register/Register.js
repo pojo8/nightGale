@@ -6,8 +6,8 @@ import {FiUser,FiLock} from 'react-icons/fi'
 
 class Register extends Component {
   
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state ={
       registerError: false,
       userRegistered: false,
@@ -17,7 +17,7 @@ class Register extends Component {
       password:'',
       confirmPassword:'',
       accountType:'',
-    };
+    }
 
     this.onTextBoxChangeFirstName = this.onTextBoxChangeFirstName.bind(this);
     this.onTextBoxChangeLastName = this.onTextBoxChangeLastName.bind(this);
@@ -157,7 +157,7 @@ class Register extends Component {
             <Col md="9" lg="7" xl="6">
               <Card className="mx-4">
                 <CardBody className="p-4">
-                  <Form > 
+                  <Form  action="" method="post" encType="multipart/form-data"> 
                     <h1>Register</h1>
                     <p className="text-muted">Create your account</p>
                     {
@@ -248,8 +248,7 @@ class Register extends Component {
                         <option >select an account type</option>
                         <option value="contractor">Contractor</option>
                         <option value="nurse">Nurse</option>
-                        <option value="hospitalAdmin">Hospital Admin</option>
-                        <option value="hospital">Hospital</option>
+                        <option value="admin">Hospital Admin</option>
                       </Input>
                     </InputGroup>   
                     <Button color="success" onClick={this.onRegister} block>Create Account</Button>

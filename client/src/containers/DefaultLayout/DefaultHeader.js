@@ -28,6 +28,7 @@ class DefaultHeader extends Component {
     this.state ={
       token:'',
       userId:'',
+      accountType: '',
       logOutSuccess: false,
     };
 
@@ -53,6 +54,7 @@ class DefaultHeader extends Component {
           this.setState({
             token: obj.token,
             userId: obj.userId,
+            // accountType: obj.accountType,
           });
           // console.log('token verfy failed')
         } else {
@@ -60,6 +62,7 @@ class DefaultHeader extends Component {
           this.setState({
             token:'',
             userId:'',
+            accountType:'',
             logOutSuccess:true,
           });
         }
